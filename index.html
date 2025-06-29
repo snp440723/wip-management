@@ -213,34 +213,18 @@
         }
 
         /* Table Container for Scrollability */
+        /* Removed max-height and overflow-y for #reportWIPTable */
         .table-container {
             margin-top: 15px;
             border: 1px solid rgba(240, 240, 240, 0.5);
             border-radius: 8px;
             background-color: rgba(255, 255, 255, 0.9);
-            overflow: hidden; /* Ensures rounded corners apply to content */
         }
         /* Specific scroll for history tables */
         #receiveHistoryTable.table-container,
         #requestHistoryTable.table-container {
             max-height: 300px; /* Adjust as needed for history tables */
             overflow-y: auto;
-        }
-        /* Add max-height and overflow-y for reportWIPTable as well if it gets too long */
-        #reportWIPTable {
-             display: block; /* Make the table a block element to control height */
-             max-height: 400px; /* Adjust as needed for report table */
-             overflow-y: auto;
-             border-collapse: collapse; /* Ensure table collapses borders */
-        }
-        #reportWIPTable thead {
-            position: sticky;
-            top: 0;
-            z-index: 2; /* Higher z-index to stay above tbody */
-            background-color: rgba(248, 248, 248, 0.9); /* Ensure header background is not fully transparent when sticky */
-        }
-        #reportWIPTable th {
-             border-bottom: 2px solid #ddd; /* Add a stronger border for sticky header */
         }
 
 
@@ -249,6 +233,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 0.9em;
+            overflow: hidden; /* Ensures rounded corners apply to content */
         }
 
         table th, table td {
@@ -318,11 +303,11 @@
         </div>
         <ul class="sidebar-menu">
             <li class="menu-item active" data-tab="receive">
-                <img src="data:image/svg+xml;base64,PHN2ZyBhcmlhLWdpZGRlbi0iYnJpY2stZnVsbCIgZGF0YS1iconltaWdlPSJicmFz-ZmFzdCIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIGZpbGw9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIwIiB2aWV3Qm94QXJlYT0iMCAwIDUxMiA1MTIiIHZpZXdCb3hBcmVhPSIwIDAgNTEyIDUxMiIgcGF0aCBkPSJNMjQ4IDMyLjAxQzE1MS4wNCAzMi4wMSAxMDguNjQgODcuMzkgMTA4LjY0IDE2NC4wMUMxMDguNjQgMTg5LjMxIDEwOS43NiAxOTcuOTUgMTEzLjA3IDIwMi40QzExNS45MiAyMDYuMjggMTE4LjA4IDIxMC4wOCAxMjAuMDUgMjEzLjVDMTQ0LjggMjQ3Ljk2IDE4Mi4yMyAyNzcuMzcgMjI4LjQ4IDI5Ni42QzI2Ny44OSAzMTIuMTYgMzA4LjAzIDMzNC4zMyAzMzcuMDIgMzUyLjQ2QzM1Ni43OSAzNjQuNzggMzc2LjU2IDM4OC4xMiAzOTYuNzIgMzg5LjczQzQxMy45NSAzOTkuODIgNDMwLjkgNDA4Ljg1IDQ0OC40IDQxNi45NkM0OTQuOTIgNDM4LjY0IDU0Ny45NiA0MzcuNDQgNTU4LjYgNDQ3Ljc2QzU2NS41MiA0NTQuNDggNTcwLjQ4IDQ2MC42NyA1NzYuMDMgNDY3LjI1QzU4OC4zMiA0ODIuMzEgNTgyLjggNTEyIDU3NiA1MTJIMTA0LjgyQzExLjU5IDUxMiAtNDguNzYgNDE4LjY0IDMyLjAxIDI3My40OUwxNzIuNTkgNDAuMjU1QzE2MS4yOCA4Ljc1NSAxMjcuMjYgLTkuNDQ1IDk0LjMyIC4wMDVDMzkuNzE2IDE2LjgyMzk5OTk5OTk5OTk4IDMuMDM2IDU1LjAxIDEuNDggODUuMjYzQy0yLjA1MiAxNTcuMDkgMi4wMzcgMTgxLjYzIDIuMDM3IDE4MS42M0wyLjAzNyAyNDguMjVDMi4wMzcgMjQ4LjI1IDE5LjkuMjc0LjY1IDczLjk4IDI4Ny4zOEMxMTQuNzUgMjk4LjQ3IDE3OC4zOCAzMjUuNDcgMjIwLjE1IDM2Mi40MkMyNzUuNDcgNDA5LjM3IDM0MS42OCA0MTMuOTIgMzY3LjA3IDQwOC43M0M0NTMuNjcgMzg0Ljg4IDUwNS41MiAzNDkuNzQgNTE3LjQ3IDMzOC43NUM1MjkuNzIgMzI3LjY2IDUzOS42MyAzMTcuNTQgNTUzLjIzIDMwNC4wM0M1NjcuNzggMjkwLjA5IDU4MS4wNCAyNzIuOTkgNTg2.NTcgMjQ4LjIzQzU5NC42NSAyMTYuMDIgNTkyLjczNTQ4IDE3NS4wNCA1NTguODYgMTQ2LjMxRzE1LjIxIDEzNC4zMyA1ODUuNDggMTMwLjgxIDE3NC42NyAxNzQuNjMgNDQyLjUyIDY1Ljk2IDM3Ny41MyAzMi4wMSAyNDggMzIuMDFaIi8+PC9zdmc+" alt="Receive Icon" class="menu-icon">
+                <img src="data:image/svg+xml;base64,PHN2ZyBhcmlhLWdpZGRlbi0iYnJpY2stZnVsbCIgZGF0YS1iconltaWdlPSJicmFz-ZmFzdCIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIGZpbGw9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIwIiB2aWV3Qm94QXJlYT0iMCAwIDUxMiA1MTIiIHZpZXdCb3hBcmVhPSIwIDAgNTEyIDUxMiIgcGF0aCBkPSJNMjQ4IDMyLjAxQzE1MS4wNCAzMi4wMSAxMDguNjQgODcuMzkgMTA4LjY0IDE2NC4wMUMxMDguNjQgMTg5LjMxIDEwOS43NiAxOTcuOTUgMTEzLjA3IDIwMi40QzExNS45MiAyMDYuMjggMTE4LjA4IDIxMC4wOCAxMjAuMDUgMjEzLjVDMTQ0LjggMjQ3Ljk2IDE4Mi4yMyAyNzcuMzcgMjI4LjQ4IDI5Ni42QzI2Ny44OSAzMTIuMTYgMzA4LjAzIDMzNC4zMyAzMzcuMDIgMzUyLjQ2QzM1Ni43OSAzNjQuNzggMzc2LjU2IDM4OC4xMiAzOTYuNzIgMzg5LjczQzQxMy45NSAzOTkuODIgNDMwLjkgNDA4Ljg1IDQ0OC40IDQxNi45NkM0OTQuOTIgNDM4LjY0IDU0Ny45NiA0MzcuNDQgNTU4LjYgNDQ3Ljc2QzU2NS41MiA0NTQuNDggNTcwLjQ4IDQ2MC42NyA1NzYuMDMgNDY3LjI1QzU4OC4zMiA0ODIuMzEgNTgyLjggNTEyIDU3NiA1MTJIMTA0LjgyQzExLjU5IDUxMiAtNDguNzYgNDE4LjY0IDMyLjAxIDI3My40OUwxNzIuNTkgNDAuMjU1QzE2MS4yOCA4Ljc1NSAxMjcuMjYgLTkuNDQ1IDk0LjMyIC4wMDVDMzkuNzE2IDE2LjgyMzk5OTk5OTk5OTk4IDMuMDM2IDU1LjAxIDEuNDggODUuMjYzQy0yLjA1MiAxNTcuMDkgMi4wMzcgMTgxLjYzIDIuMDM3IDE4MS42M0wyLjAzNyAyNDguMjVDMi4wMzcgMjQ4LjI1IDE5LjkuMjc0LjY1IDczLjk4IDI4Ny4zOEMxMTQuNzUgMjk4LjQ3IDE3OC4zOCAzMjUuNDcgMjIwLjE1IDM2Mi40MkMyNzUuNDcgNDA5LjM3IDM0MS42OCA0MTMuOTIgMzY3LjA3IDQwOC43M0M0NTMuNjcgMzg0Ljg4IDUwNS41MiAzNDkuNzQgNTE3LjQ3IDMzOC43NUM1MjkuNzIgMzI3LjY2IDUzOS42MyAzMTcuNTQgNTUzLjIzIDMwNC4wM0M1NjcuNzggMjkwLjA5IDU4MS4wNCAyNzIuOTkgNTg2LjU3IDI0OC4yM0M1OTQuNjUgMjE2LjAyIDU5Mi43MzU0OCAxNzUuMDQgNTU4Ljg2IDE0Ni4zMUcxNS4yMSAxMzQuMzMgNTg1LjQ4IDEzMC44MSAxNzQuNjcgMTc0LjYzIDQ0Mi41MiA2NS45NiAzNzcuNTMgMzIuMDEgMjQ4IDMyLjAxWiIvPjwvc3ZnPg==" alt="Receive Icon" class="menu-icon">
                 Receive WIP
             </li>
             <li class="menu-item" data-tab="report">
-                <img src="data:image/svg+xml;base64,PHN2ZyBzdHJva2U9ImN1cnJlbnRDb2xvciIgZmlsbD0iY3VycmVudENvbG9yIiBzdHJva2Utd2lkdGg9IjAiIHZpZXdCb3hBcmVhPSIwIDAgNTEyIDUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGFyaWEtaGlkZGVuPSJ0cnVlIiBmb2N1c2FibGU9ImZhbHNlIj48cGF0aCBkPSJNNjQgMTQ0SDM4NGMzNS4zNCAwLTY0LTI4LjY2LTY0LTY0VjI0LjAwM0MzMjAtNC4zMzMgMzA0LjA2LTUuNDUzIDI4Ny42NCAxLjgxM0MyNzUuNTcgNi4xMTMgMjYwLjAzIDE0LjE2IDI0OC4wMSAyNi41OUMyMzIuNjUgNDIuMzIgMjIzLjEzIDY2LjIgMjIzLjEzIDg5Ljg5NVMyMjcuNzUgMTE1LjUzIDIyNSAxMTguNSAxOTIgMTEyLjAwNUMxNjAgMTEyLjAwNSAxNDUuNTkgMTA1LjYyIDEyOC4wNiA4Ni4zODdDMTA3LjI1NiA2OC42MjUgMTAxLjQ0IDQ0LjE4NSA5My42Mzg5ODk5OTk5OTk5NSA0Mi42MjVDODAuNTM4OTk5OTk5OTk5OTk5IDM3NDg1NzguNjY4OTk5OTk5OTk5OSAzNi4yMDU3NS44MDkgMzUuMDY1QzQxLjMwOSAyMi41MzkgOC45MzkgNjIuNzY1IDguOTM5IDEwMC42NDVWMjY3Ljc2NUMtNi42NjEgMjkzLjM3MDMzMiAzMy4zNyAzNTMuNzMzNyAzODYuOTEgMzk2LjEyNDg5OTk5OTk5OTk5OTk0NS41MyA0NDkuMjIgMzk5LjY3IDQ0OC4xMSAzNzcuMzkgNDQwLjEwOCA0NzEuNjIgNDkwLjk4IDUyNC41MiA0ODguMDMgNTUzLjA3IDQ4MC41OCAzOC43NiAzOTkuMDggMTEuNTkgNS43MzkgMzMzLjIyNSA0Ny41MzkgMzU1LjQxNTk5OTk5OTk5OTk5OTk5OSAyNzUuNjc5IDM4MS42MDUgMTc0LjIzIDQxMS43MTUgMjUwLjAxIDQxNy42NjVDMjU4LjAxIDQxOC41NTUgMjY0LjY2IDQxOC43MzUgMjcyLjAxIDQxOC41NTVDMjk3LjQ3IDQxNy4wMTUgMzI0LjY2IDQxMC4xNDUgMzQ2LjQ1IDM5Mi4zMzVDMzYwLjQgMzgxLjYxNSAzNzcuNDUgMzY5LjU4NSAzOTcuMzkgMzYxLjUxNEM0MTcuMzUgMzUzLjQ0NSA0MjcuNTUgMzQ0LjgyNSA0NDAuNDUgMzM0Ljg2NEM0NTMuMzcgMzI0LjkxNSA0NjcuNTggMzE3Ljc3NSA0ODAuMTUgMzE3Ljc3NUM1MDkuNzM5OTk5OTk5OTk5OTQ2IDMxNy43NzUgNTEyIDMxOS45MjUgNTEyIDM1MC4zNzVWNDQ4YTY0IDY0IDAgMCAwIDY0IDY0SDUzNmE2NCA2NCAwIDAgMCA2NC02NFYxNDRoNDgwWm0tNjQgNTYuMDA1TDQ4MCAyODguMDA1TDQ4MCAyNTYuMDA1TDUzNiAyNTYuMDA1TDUzNiAyMDAuMDA1Wk00NDggNDQ4YTMyIDMyIDAgMCAwLTMyIDMySDc2YTMyIDMyIDAgMCAwLTMyLTMyVjExNy4yMzVDNzYgNzYuMzE1IDEzOC40NiA3Ljk0NSAxNzUuNzMgNy45NDVIMjQ4LjAxMmM4NS44OSAwIDg3LjYzIDg5LjE3IDg3LjYyNjA3IDg5LjM3aDI4Ljg0OEMzNjQuODUgOTYuOTc1IDM3My4xOCA5OS41NjUgMzc5LjU2IDExNC40ODVDMzkxLjMyIDExMi44NDUgMzk2LjY1IDEyOC4zMzUgMzk2LjY1IDE0Ni4zMjVIMzcwTDMzNy41IDE0NC4wMjVMMzM3IDE3Ni43ODVIMzY5Ljk2TDQ0OCAyMDAuMDA1VjQ0OHoiLz48L3N2Zz4=" alt="Report Icon" class="menu-icon">
+                <img src="data:image/svg+xml;base64,PHN2ZyBzdHJva2U9ImN1cnJlbnRDb2xvciIgZmlsbD0iY3VycmVudENvbG9yIiBzdHJva2Utd2lkdGg9IjAiIHZpZXdCb3hBcmVhPSIwIDAgNTEyIDUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGFyaWEtaGlkZGVuPSJ0cnVlIiBmb2N1c2FibGU9ImZhbHNlIj48cGF0aCBkPSJNNjQgMTQ0SDM4NGMtMzUuMzQgMC02NC0yOC42Ni02NC02NFYyNC4wMDNDMzIwLTQuMzMzIDMwNC4wNi01LjQ1MyAyODcuNjQgMS44MTNDMjc1LjU3IDYuMTEzIDI2MC4wMyAxNC4xNiAyNDguMDEgMjYuNTlDMjMyLjY1IDQyLjMyIDIyMy4xMyA2Ni4yIDIyMy4xMyA4OS44OTVTMjI3Ljc1IDExNS41MyAyMjUgMTE4LjUgMTkyIDExMi4wMDVDMTYwIDExMi4wMDUgMTQ1LjU5IDEwNS42MiAxMjguMDYgODYuMzg3QzEwNy4yNTYgNjguNjI1IDEwMS40NCA0NC4xODUgOTMuNjM4OTg5OTk5OTk5OTUgNDIuNjI1QzgwLjUzODk5OTk5OTk5OTk5OSAzNzQ4NTc4LjY2ODk5OTk5OTk5OTkgMzYuMjA1NzUuODA5IDM1LjA2NUM0MS4zMDkgMjIuNTM5IDguOTM5IDYyLjc5NSA4LjkzOSAxMDAuNjQ1VjI2Ny43NjVDLTYuNjYxIDI5My4zNzAzMzIgMzMuMzcgMzUzLjczMzcgMzg2LjkxIDM5Ni4xMjQ4OTk5OTk5OTk5OTk5NDUuNTMgNDQ5LjIyIDM5OS42NyA0NDguMTEgNDExLjUyIDQ0MC4xIDQ3MS42MiA0OTAuOTggNTI0LjUyIDQ4OC4wMyA1NTMuMDcgNDgwLjU4IDM4Ljc2IDM5OS4wOCAxMS41OSA1LjczOSAzMzMuMjI1IDQ3LjUzOSAzNTUuNDE1OTk5OTk5OTk5OTk5OTk5IDk5LjE5OSAzODEuNjA1IDE3NC4yMyA0MTEuNzE1IDI1MC4wMSA0MTcuNjY1QzI1OC4wMSA0MTguNTU1IDI2NC42NiA0MTguNzM1IDI3Mi4wMSA0MTguNTU1QzI5Ny40NyA0MTcuMDE1IDMyNC42NiA0MTAuMTQ1IDM0Ni40NSAzOTIuMzM1QzM2MC40IDM4MS42MTUgMzc3LjQ1IDM2OS41ODUgMzk3LjM5IDM2MS41MTVDNDE3LjM1IDM1My40NDUgNDI3LjU1IDM0NC44MjUgNDQwLjQ1IDMzNC44NjVDNDUzLjM3IDMyNC45MTUgNDY3LjU4IDMxNy43NzUgNDgwLjE1IDMxNy43NzVDNTA5LjczOTk5OTk5OTk5OTk0IDMxNy43NzUgNTEyIDMxOS45MjUgNTEyIDM1MC4zNzVWNDQ4YTY0IDY0IDAgMCAwIDY0IDY0SDUzNmE2NCA2NCAwIDAgMCA2NC02NFYxNDRoNDgwWm0tNjQgNTYuMDA1TDQ4MCAyODguMDA1TDQ4MCAyNTYuMDA1TDUzNiAyNTYuMDA1TDUzNiAyMDAuMDA1Wk00NDggNDQ4YTMyIDMyIDAgMCAwLTMyIDMySDc2YTMyIDMyIDAgMCAwLTMyLTMyVjExNy4yMzVDNzYgNzYuMzE1IDEzOC40NiA3Ljk0NSAxNzUuNzMgNy45NDVIMjQ4LjAxMmM4NS44OSAwIDg3LjYzIDg5LjE3IDg3LjYyNjA3IDg5LjM3aDI4Ljg0OEMzNjQuODUgOTYuOTc1IDM3My4xOCA5OS41NjUgMzc5LjU2IDExNC40ODVDMzkxLjMyIDExMi44NDUgMzk2LjY1IDEyOC4zMzUgMzk2LjY1IDE0Ni4zMjVIMzcwTDMzNy41IDE0NC4wMjVMMzM3IDE3Ni43ODVIMzY5Ljk2TDQ0OCAyMDAuMDA1VjQ0OHoiLz48L3N2Zz4=" alt="Report Icon" class="menu-icon">
                 Report WIP
             </li>
             <li class="menu-item" data-tab="request">
@@ -410,24 +395,22 @@
                     </select>
                 </div>
             </div>
-            <div class="table-container">
-                <table id="reportWIPTable">
-                    <thead>
-                        <tr>
-                            <th>SAP CODE</th>
-                            <th>DESCRIPTION</th>
-                            <th>QUANTITY</th>
-                            <th>UNIT</th>
-                            <th>TYPE</th>
-                            <th>PROCESS</th>
-                            <th>LOCATION</th>
-                            <th>JOBORDER</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
+            <table id="reportWIPTable">
+                <thead>
+                    <tr>
+                        <th>SAP CODE</th>
+                        <th>DESCRIPTION</th>
+                        <th>QUANTITY</th>
+                        <th>UNIT</th>
+                        <th>TYPE</th>
+                        <th>PROCESS</th>
+                        <th>LOCATION</th>
+                        <th>JOBORDER</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
 
         <div id="request" class="content-panel">
@@ -463,8 +446,7 @@
         <div id="history" class="content-panel">
             <h2>History</h2>
             <h3 style="margin-top: 20px;">Receive History</h3>
-            <div id="receiveHistoryTable" class="table-container">
-                <table>
+            <div id="receiveHistoryTable" class="table-container"> <table>
                     <thead>
                         <tr>
                             <th>Date/Time</th>
@@ -484,8 +466,7 @@
             </div>
 
             <h3 style="margin-top: 40px;">Request History</h3>
-            <div id="requestHistoryTable" class="table-container">
-                <table>
+            <div id="requestHistoryTable" class="table-container"> <table>
                     <thead>
                         <tr>
                             <th>Date/Time</th>
@@ -504,396 +485,283 @@
     </div>
 
     <script>
-        // Global variable to hold WIP data for filtering
-        let allWIPData = [];
-        let receiveHistoryData = []; // To store receive history data for export
-        let requestHistoryData = []; // To store request history data for export
-
         document.addEventListener('DOMContentLoaded', () => {
-            // Initial load for the first tab
+            // Initialize data from Local Storage or empty arrays
+            let currentWIP = JSON.parse(localStorage.getItem('currentWIP')) || [];
+            let receiveHistory = JSON.parse(localStorage.getItem('receiveHistory')) || [];
+            let requestHistory = JSON.parse(localStorage.getItem('requestHistory')) || [];
+
+            // --- Functions to update Local Storage ---
+            const saveWIP = () => localStorage.setItem('currentWIP', JSON.stringify(currentWIP));
+            const saveReceiveHistory = () => localStorage.setItem('receiveHistory', JSON.stringify(receiveHistory));
+            const saveRequestHistory = () => localStorage.setItem('requestHistory', JSON.stringify(requestHistory));
+
+            // --- Sidebar Navigation Logic ---
+            const sidebarMenuItems = document.querySelectorAll('.sidebar-menu .menu-item');
+            const contentPanels = document.querySelectorAll('.content-panel');
+            const currentModuleTitle = document.getElementById('currentModuleTitle');
+            const exportButton = document.getElementById('exportButton');
+
+            // Default active tab on load
             showContent('receive');
-        });
 
-        // --- Sidebar Navigation Logic ---
-        const sidebarMenuItems = document.querySelectorAll('.sidebar-menu .menu-item');
-        const contentPanels = document.querySelectorAll('.content-panel');
-        const currentModuleTitle = document.getElementById('currentModuleTitle');
-        const exportButton = document.getElementById('exportButton');
-
-        sidebarMenuItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const tabId = item.dataset.tab;
-                showContent(tabId);
-            });
-        });
-
-        function showContent(tabId) {
-            // Remove active class from all menu items and content panels
-            sidebarMenuItems.forEach(item => item.classList.remove('active'));
-            contentPanels.forEach(panel => panel.classList.remove('active'));
-
-            // Add active class to the selected menu item and content panel
-            const selectedMenuItem = document.querySelector(`.sidebar-menu .menu-item[data-tab="${tabId}"]`);
-            const selectedContentPanel = document.getElementById(tabId);
-
-            if (selectedMenuItem) {
-                selectedMenuItem.classList.add('active');
-            }
-            if (selectedContentPanel) {
-                selectedContentPanel.classList.add('active');
-            }
-
-            // Update Header Title and Export button visibility
-            exportButton.style.display = 'none'; // Hide by default
-
-            if (tabId === 'receive') {
-                currentModuleTitle.textContent = 'Receive WIP';
-            } else if (tabId === 'report') {
-                currentModuleTitle.textContent = 'Report WIP';
-                exportButton.style.display = 'block';
-                exportButton.onclick = exportReportToExcel; // Assign export function
-                renderReportTable(); // Refresh report table
-            } else if (tabId === 'request') {
-                currentModuleTitle.textContent = 'Request WIP';
-                // No export on this page, as history is separate
-            } else if (tabId === 'history') {
-                currentModuleTitle.textContent = 'History';
-                exportButton.style.display = 'block';
-                exportButton.onclick = exportHistoryToExcel; // Assign combined export for history
-                renderReceiveHistoryTable(); // Refresh receive history
-                renderRequestHistoryTable(); // Refresh request history
-            }
-        }
-
-        // --- Receive WIP Form Submission ---
-        document.getElementById('receiveForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const sapCode = document.getElementById('sapCodeReceive').value.trim();
-            const description = document.getElementById('descriptionReceive').value.trim();
-            const quantity = parseInt(document.getElementById('quantityReceive').value);
-            const unit = document.getElementById('unitReceive').value;
-            const type = document.getElementById('typeReceive').value;
-            const process = document.getElementById('processReceive').value;
-            const location = document.getElementById('locationReceive').value.trim();
-            const jobOrder = document.getElementById('jobOrderReceive').value.trim();
-
-            if (process === "") {
-                alert("Please select a PROCESS.");
-                return;
-            }
-
-            const dataToSend = {
-                sapCode,
-                description,
-                quantity,
-                unit,
-                type,
-                process,
-                location,
-                jobOrder
-            };
-
-            try {
-                const response = await fetch('http://localhost:3000/api/wip', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(dataToSend)
+            sidebarMenuItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const tabId = item.dataset.tab;
+                    showContent(tabId);
                 });
-
-                if (response.ok) {
-                    const result = await response.json();
-                    alert('Receive WIP data saved successfully!');
-                    console.log('API Response:', result);
-                    document.getElementById('receiveForm').reset();
-                    // No need to call renderReportTable() here immediately unless on the 'report' tab
-                    // It will be called when user switches to 'report' tab
-                } else {
-                    const errorText = await response.text();
-                    alert('Failed to save Receive WIP data: ' + errorText);
-                    console.error('API Error:', response.status, errorText);
-                }
-            } catch (error) {
-                alert('Error connecting to the server. Please ensure the backend is running.');
-                console.error('Fetch error:', error);
-            }
-        });
-
-        // --- Request WIP Form Submission ---
-        document.getElementById('requestForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const description = document.getElementById('descriptionRequest').value.trim();
-            const quantity = parseInt(document.getElementById('quantityRequest').value);
-            const unit = document.getElementById('unitRequest').value;
-            const jobOrder = document.getElementById('jobOrderRequest').value.trim();
-            const requestBy = document.getElementById('requestBy').value.trim();
-
-            const dataToSend = {
-                description,
-                quantity,
-                unit,
-                jobOrder,
-                requestBy
-            };
-
-            try {
-                const response = await fetch('http://localhost:3000/api/request-wip', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(dataToSend)
-                });
-
-                if (response.ok) {
-                    const result = await response.json();
-                    alert('Request submitted successfully!');
-                    console.log('API Response:', result);
-                    document.getElementById('requestForm').reset();
-                    // No need to call render tables here immediately unless on the 'report' or 'history' tab
-                } else {
-                    const errorText = await response.text();
-                    alert('Failed to submit request: ' + errorText);
-                    console.error('API Error:', response.status, errorText);
-                }
-            } catch (error) {
-                alert('Error connecting to the server. Please ensure the backend is running.');
-                console.error('Fetch error:', error);
-            }
-        });
-
-        // --- Functions to fetch and render data from API ---
-
-        // Function to fetch and render current WIP table
-        async function renderReportTable() {
-            const tableBody = document.querySelector('#reportWIPTable tbody');
-            tableBody.innerHTML = ''; // Clear existing rows
-
-            try {
-                const response = await fetch('http://localhost:3000/api/wip');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                allWIPData = await response.json(); // Store fetched data for filtering
-                renderFilteredReportTable(allWIPData); // Render initially with all data
-            } catch (error) {
-                console.error('Error fetching current WIP data:', error);
-                tableBody.innerHTML = '<tr><td colspan="8">Failed to load WIP data. Please check server connection.</td></tr>';
-            }
-        }
-
-        // Function to render table based on filtered data (used by renderReportTable and filterReport)
-        function renderFilteredReportTable(dataToRender) {
-            const tableBody = document.querySelector('#reportWIPTable tbody');
-            tableBody.innerHTML = ''; // Clear existing rows
-
-            if (dataToRender.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="8">No matching data found.</td></tr>';
-                return;
-            }
-
-            dataToRender.forEach(item => {
-                const row = tableBody.insertRow();
-                // Ensure column names match your PostgreSQL table schema (snake_case)
-                row.insertCell().textContent = item.sap_code;
-                row.insertCell().textContent = item.description;
-                row.insertCell().textContent = item.quantity;
-                row.insertCell().textContent = item.unit;
-                row.insertCell().textContent = item.type;
-                row.insertCell().textContent = item.process;
-                row.insertCell().textContent = item.location;
-                row.insertCell().textContent = item.job_order;
             });
-        }
 
-        // Function to filter report table based on search and process filter
-        function filterReport() {
-            const searchTerm = document.getElementById('searchReport').value.toLowerCase();
-            const filterProcess = document.getElementById('filterProcessReport').value;
+            function showContent(tabId) {
+                // Remove active class from all menu items and content panels
+                sidebarMenuItems.forEach(item => item.classList.remove('active'));
+                contentPanels.forEach(panel => panel.classList.remove('active'));
 
-            const filteredData = allWIPData.filter(item => {
-                const matchesSearch = Object.values(item).some(value =>
-                    String(value).toLowerCase().includes(searchTerm)
+                // Add active class to the selected menu item and content panel
+                const selectedMenuItem = document.querySelector(`.sidebar-menu .menu-item[data-tab="${tabId}"]`);
+                const selectedContentPanel = document.getElementById(tabId);
+
+                if (selectedMenuItem) {
+                    selectedMenuItem.classList.add('active');
+                }
+                if (selectedContentPanel) {
+                    selectedContentPanel.classList.add('active');
+                }
+
+                // Update Header Title and Export button visibility
+                exportButton.style.display = 'none'; // Hide by default
+
+                if (tabId === 'receive') {
+                    currentModuleTitle.textContent = 'Receive WIP';
+                } else if (tabId === 'report') {
+                    currentModuleTitle.textContent = 'Report WIP';
+                    exportButton.style.display = 'block';
+                    exportButton.onclick = exportReportToExcel; // Assign export function
+                    renderReportTable(); // Refresh report table
+                } else if (tabId === 'request') {
+                    currentModuleTitle.textContent = 'Request WIP';
+                    // No export on this page, as history is separate
+                } else if (tabId === 'history') {
+                    currentModuleTitle.textContent = 'History';
+                    exportButton.style.display = 'block';
+                    exportButton.onclick = exportHistoryToExcel; // Assign combined export for history
+                    renderReceiveHistoryTable(); // Refresh receive history
+                    renderRequestHistoryTable(); // Refresh request history
+                }
+            }
+
+            // --- Receive WIP Form Submission ---
+            document.getElementById('receiveForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const sapCode = document.getElementById('sapCodeReceive').value.trim();
+                const description = document.getElementById('descriptionReceive').value.trim();
+                const quantity = parseInt(document.getElementById('quantityReceive').value);
+                const unit = document.getElementById('unitReceive').value;
+                const type = document.getElementById('typeReceive').value;
+                const process = document.getElementById('processReceive').value;
+                const location = document.getElementById('locationReceive').value.trim();
+                const jobOrder = document.getElementById('jobOrderReceive').value.trim();
+
+                // Validation for process selection
+                if (process === "") {
+                    alert("Please select a PROCESS.");
+                    return; // Stop form submission
+                }
+
+                // Check if item already exists in current WIP based on key attributes (SAP Code, Description, Unit, Type, Process, Location, Job Order)
+                const existingItemIndex = currentWIP.findIndex(item =>
+                    item.sapCode === sapCode &&
+                    item.description === description &&
+                    item.unit === unit &&
+                    item.type === type &&
+                    item.process === process &&
+                    item.location === location &&
+                    item.jobOrder === jobOrder
                 );
-                const matchesProcess = filterProcess === "" || item.process === filterProcess;
-                return matchesSearch && matchesProcess;
+
+                if (existingItemIndex > -1) {
+                    // Update quantity if item exists
+                    currentWIP[existingItemIndex].quantity += quantity;
+                } else {
+                    // Add new item if not exists
+                    currentWIP.push({
+                        sapCode, description, quantity, unit, type, process, location, jobOrder
+                    });
+                }
+
+                // Get current date/time and format it without seconds
+                const now = new Date();
+                const formattedTimestamp = now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                // Add to receive history
+                receiveHistory.push({
+                    timestamp: formattedTimestamp,
+                    sapCode, description, quantity, unit, type, process, location, jobOrder
+                });
+
+                saveWIP();
+                saveReceiveHistory();
+                renderReportTable(); // Update report table
+                document.getElementById('receiveForm').reset(); // Clear form
             });
 
-            renderFilteredReportTable(filteredData);
-        }
+            // --- Request WIP Form Submission ---
+            document.getElementById('requestForm').addEventListener('submit', (e) => {
+                e.preventDefault();
 
-        // Function to fetch and render Receive History table
-        async function renderReceiveHistoryTable() {
-            const tableBody = document.querySelector('#receiveHistoryTable tbody');
-            tableBody.innerHTML = ''; // Clear existing rows
+                const description = document.getElementById('descriptionRequest').value.trim();
+                const quantity = parseInt(document.getElementById('quantityRequest').value);
+                const unit = document.getElementById('unitRequest').value;
+                const jobOrder = document.getElementById('jobOrderRequest').value.trim();
+                const requestBy = document.getElementById('requestBy').value.trim();
 
-            try {
-                const response = await fetch('http://localhost:3000/api/receive-history');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
+                // Find the item in current WIP
+                const itemIndexInWIP = currentWIP.findIndex(item =>
+                    item.description === description &&
+                    item.unit === unit &&
+                    item.jobOrder === jobOrder
+                );
+
+                if (itemIndexInWIP > -1) {
+                    if (currentWIP[itemIndexInWIP].quantity >= quantity) {
+                        currentWIP[itemIndexInWIP].quantity -= quantity;
+
+                        // Get current date/time and format it without seconds
+                        const now = new Date();
+                        const formattedTimestamp = now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                        // Add to request history
+                        requestHistory.push({
+                            timestamp: formattedTimestamp,
+                            description,
+                            quantity,
+                            unit,
+                            jobOrder,
+                            requestBy
+                        });
+
+                        saveWIP();
+                        saveRequestHistory();
+                        renderReportTable(); // Update report table
+                        document.getElementById('requestForm').reset(); // Clear form
+                        alert('Request successful!');
+                    } else {
+                        alert('Not enough quantity in stock for this item.');
+                    }
+                } else {
+                    alert('Item not found in current WIP inventory.');
                 }
-                receiveHistoryData = await response.json(); // Store data for export
-                
-                if (receiveHistoryData.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="9">No receive history found.</td></tr>';
-                    return;
-                }
+            });
 
-                receiveHistoryData.forEach(item => {
-                    const row = tableBody.insertRow();
-                    // Format date/time
-                    const date = new Date(item.timestamp);
-                    const formattedTimestamp = date.toLocaleDateString('th-TH', {
-                        year: 'numeric', month: '2-digit', day: '2-digit'
-                    }) + ' ' + date.toLocaleTimeString('th-TH', {
-                        hour: '2-digit', minute: '2-digit'
-                    });
+            // --- Report WIP Table Rendering and Filtering ---
+            const reportWIPTableBody = document.querySelector('#reportWIPTable tbody');
+            const searchReportInput = document.getElementById('searchReport');
+            const filterProcessReportSelect = document.getElementById('filterProcessReport');
 
-                    row.insertCell().textContent = formattedTimestamp;
-                    row.insertCell().textContent = item.sap_code;
+            function renderReportTable() {
+                reportWIPTableBody.innerHTML = ''; // Clear existing rows
+                const searchTerm = searchReportInput.value.toLowerCase();
+                const filterProcess = filterProcessReportSelect.value;
+
+                const filteredWIP = currentWIP.filter(item => {
+                    const matchesSearch = searchTerm === '' ||
+                        item.sapCode.toLowerCase().includes(searchTerm) ||
+                        item.description.toLowerCase().includes(searchTerm) ||
+                        item.unit.toLowerCase().includes(searchTerm) ||
+                        item.type.toLowerCase().includes(searchTerm) ||
+                        item.process.toLowerCase().includes(searchTerm) ||
+                        item.location.toLowerCase().includes(searchTerm) ||
+                        item.jobOrder.toLowerCase().includes(searchTerm);
+
+                    const matchesProcess = filterProcess === '' || item.process === filterProcess;
+
+                    return matchesSearch && matchesProcess;
+                });
+
+                filteredWIP.forEach(item => {
+                    const row = reportWIPTableBody.insertRow();
+                    row.insertCell().textContent = item.sapCode;
                     row.insertCell().textContent = item.description;
                     row.insertCell().textContent = item.quantity;
                     row.insertCell().textContent = item.unit;
                     row.insertCell().textContent = item.type;
                     row.insertCell().textContent = item.process;
                     row.insertCell().textContent = item.location;
-                    row.insertCell().textContent = item.job_order;
+                    row.insertCell().textContent = item.jobOrder;
                 });
-            } catch (error) {
-                console.error('Error fetching receive history data:', error);
-                tableBody.innerHTML = '<tr><td colspan="9">Failed to load Receive History. Please check server connection.</td></tr>';
             }
-        }
 
-        // Function to fetch and render Request History table
-        async function renderRequestHistoryTable() {
-            const tableBody = document.querySelector('#requestHistoryTable tbody');
-            tableBody.innerHTML = ''; // Clear existing rows
+            window.filterReport = renderReportTable; // Make function globally accessible for onkeyup/onchange
 
-            try {
-                const response = await fetch('http://localhost:3000/api/request-history');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                requestHistoryData = await response.json(); // Store data for export
+            // --- Receive History Table Rendering ---
+            const receiveHistoryTableBody = document.querySelector('#receiveHistoryTable table tbody');
 
-                if (requestHistoryData.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="6">No request history found.</td></tr>';
-                    return;
-                }
-
-                requestHistoryData.forEach(item => {
-                    const row = tableBody.insertRow();
-                    const date = new Date(item.timestamp);
-                    const formattedTimestamp = date.toLocaleDateString('th-TH', {
-                        year: 'numeric', month: '2-digit', day: '2-digit'
-                    }) + ' ' + date.toLocaleTimeString('th-TH', {
-                        hour: '2-digit', minute: '2-digit'
-                    });
-
-                    row.insertCell().textContent = formattedTimestamp;
+            function renderReceiveHistoryTable() {
+                receiveHistoryTableBody.innerHTML = ''; // Clear existing rows
+                receiveHistory.forEach(item => {
+                    const row = receiveHistoryTableBody.insertRow();
+                    row.insertCell().textContent = item.timestamp;
+                    row.insertCell().textContent = item.sapCode;
                     row.insertCell().textContent = item.description;
                     row.insertCell().textContent = item.quantity;
                     row.insertCell().textContent = item.unit;
-                    row.insertCell().textContent = item.job_order;
-                    row.insertCell().textContent = item.request_by;
+                    row.insertCell().textContent = item.type;
+                    row.insertCell().textContent = item.process;
+                    row.insertCell().textContent = item.location;
+                    row.insertCell().textContent = item.jobOrder;
                 });
-            } catch (error) {
-                console.error('Error fetching request history data:', error);
-                tableBody.innerHTML = '<tr><td colspan="6">Failed to load Request History. Please check server connection.</td></tr>';
-            }
-        }
-
-        // --- Export Functions ---
-
-        function exportReportToExcel() {
-            if (allWIPData.length === 0) {
-                alert("No data to export for Report WIP.");
-                return;
             }
 
-            const ws = XLSX.utils.json_to_sheet(allWIPData.map(item => ({
-                "SAP CODE": item.sap_code,
-                "DESCRIPTION": item.description,
-                "QUANTITY": item.quantity,
-                "UNIT": item.unit,
-                "TYPE": item.type,
-                "PROCESS": item.process,
-                "LOCATION": item.location,
-                "JOBORDER": item.job_order
-            })));
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Current WIP Report");
-            XLSX.writeFile(wb, "Current_WIP_Report.xlsx");
-        }
+            // --- Request History Table Rendering ---
+            const requestHistoryTableBody = document.querySelector('#requestHistoryTable table tbody');
 
-        async function exportHistoryToExcel() {
-            // Ensure data is loaded before attempting to export
-            await renderReceiveHistoryTable(); // Make sure receiveHistoryData is populated
-            await renderRequestHistoryTable(); // Make sure requestHistoryData is populated
-
-            const wb = XLSX.utils.book_new();
-
-            // Export Receive History
-            if (receiveHistoryData.length > 0) {
-                const receiveExportData = receiveHistoryData.map(item => {
-                    const date = new Date(item.timestamp);
-                    const formattedTimestamp = date.toLocaleDateString('th-TH', {
-                        year: 'numeric', month: '2-digit', day: '2-digit'
-                    }) + ' ' + date.toLocaleTimeString('th-TH', {
-                        hour: '2-digit', minute: '2-digit'
-                    });
-                    return {
-                        "Date/Time": formattedTimestamp,
-                        "SAP CODE": item.sap_code,
-                        "DESCRIPTION": item.description,
-                        "QUANTITY": item.quantity,
-                        "UNIT": item.unit,
-                        "TYPE": item.type,
-                        "PROCESS": item.process,
-                        "LOCATION": item.location,
-                        "JOBORDER": item.job_order
-                    };
+            function renderRequestHistoryTable() {
+                requestHistoryTableBody.innerHTML = ''; // Clear existing rows
+                requestHistory.forEach(item => {
+                    const row = requestHistoryTableBody.insertRow();
+                    row.insertCell().textContent = item.timestamp;
+                    row.insertCell().textContent = item.description;
+                    row.insertCell().textContent = item.quantity;
+                    row.insertCell().textContent = item.unit;
+                    row.insertCell().textContent = item.jobOrder;
+                    row.insertCell().textContent = item.requestBy;
                 });
-                const wsReceive = XLSX.utils.json_to_sheet(receiveExportData);
-                XLSX.utils.book_append_sheet(wb, wsReceive, "Receive History");
-            } else {
-                console.warn("No receive history data to export.");
             }
 
-            // Export Request History
-            if (requestHistoryData.length > 0) {
-                const requestExportData = requestHistoryData.map(item => {
-                    const date = new Date(item.timestamp);
-                    const formattedTimestamp = date.toLocaleDateString('th-TH', {
-                        year: 'numeric', month: '2-digit', day: '2-digit'
-                    }) + ' ' + date.toLocaleTimeString('th-TH', {
-                        hour: '2-digit', minute: '2-digit'
-                    });
-                    return {
-                        "Date/Time": formattedTimestamp,
-                        "DESCRIPTION": item.description,
-                        "QUANTITY": item.quantity,
-                        "UNIT": item.unit,
-                        "JOBORDER": item.job_order,
-                        "REQUEST BY": item.request_by
-                    };
-                });
-                const wsRequest = XLSX.utils.json_to_sheet(requestExportData);
-                XLSX.utils.book_append_sheet(wb, wsRequest, "Request History");
-            } else {
-                console.warn("No request history data to export.");
+            // --- Export to Excel Functions ---
+            function exportTableToExcel(tableId, sheetName, filename) {
+                const table = document.getElementById(tableId);
+                const ws = XLSX.utils.table_to_sheet(table);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, sheetName);
+                XLSX.writeFile(wb, filename);
             }
 
-            if (receiveHistoryData.length > 0 || requestHistoryData.length > 0) {
-                XLSX.writeFile(wb, "WIP_History_Report.xlsx");
-            } else {
-                alert("No history data (Receive or Request) to export.");
+            function exportReportToExcel() {
+                // Ensure the current view is rendered before exporting
+                renderReportTable(); 
+                exportTableToExcel('reportWIPTable', 'Current WIP', 'Current_WIP_Report.xlsx');
             }
-        }
+
+            function exportHistoryToExcel() {
+                // Create a new workbook
+                const wb = XLSX.utils.book_new();
+
+                // Add Receive History sheet
+                const receiveTable = document.querySelector('#receiveHistoryTable table');
+                const wsReceive = XLSX.utils.table_to_sheet(receiveTable);
+                XLSX.utils.book_append_sheet(wb, wsReceive, 'Receive History');
+
+                // Add Request History sheet
+                const requestTable = document.querySelector('#requestHistoryTable table');
+                const wsRequest = XLSX.utils.table_to_sheet(requestTable);
+                XLSX.utils.book_append_sheet(wb, wsRequest, 'Request History');
+
+                // Write the workbook to a file
+                XLSX.writeFile(wb, 'WIP_History_Combined.xlsx');
+            }
+        });
     </script>
 </body>
 </html>
