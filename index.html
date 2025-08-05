@@ -1,767 +1,2268 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Material Management WIP PIPE B12</title>
+    <title>Material Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --primary-color: #CD5C5C; 
+            --primary-dark: #B22222; 
+            --secondary-color: #28a745; 
+            --secondary-dark: #218838;
+            --accent-color: #6c757d; 
+            --accent-dark: #5a6268;
+
+            --bg-light: #f8f9fa; 
+            --bg-white: #ffffff;
+            --text-dark: #343a40; 
+            --text-light: #f8f9fa;
+            --border-color: #e9ecef; 
+            --shadow-light: 0 2px 8px rgba(0,0,0,0.05); 
+            --shadow-medium: 0 4px 12px rgba(0,0,0,0.08); 
+            --shadow-strong: 0 8px 20px rgba(0,0,0,0.12); 
+            --border-radius: 10px; 
+            --input-border-radius: 6px;
+           
+            --button-border-radius: 50px; 
+
+            --warning-color: #ffc107; 
+            --critical-color: #dc3545; 
+            --ok-color: #28a745; 
+        }
+        /* Basic CSS reset */
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-image: url('S__83050507_0.jpg'); /* กำหนดรูปภาพพื้นหลัง */
-            background-size: cover; /* ครอบคลุมพื้นที่ทั้งหมด */
-            background-position: center; /* จัดตำแหน่งรูปภาพให้อยู่ตรงกลาง */
-            background-attachment: fixed; /* ทำให้รูปภาพพื้นหลังอยู่กับที่เมื่อเลื่อนหน้าจอ */
-            background-color: #f0f2f5; /* สีพื้นหลังสำรอง หากรูปภาพโหลดไม่ขึ้น */
-            display: flex;
+        }
+         body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-light);
+        }
+
+        /*  Login Page Styling */
+        #loginPage {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw;
             height: 100vh;
-            overflow: hidden;
-        }
-
-        /* Sidebar Styling */
-        .sidebar {
-            width: 280px;
-            background-color: rgba(255, 255, 255, 0.9); /* ปรับความทึบแสงเพื่อให้เห็นพื้นหลัง */
-            color: #333;
-            padding: 25px 0;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
-            display: flex;
-            flex-direction: column;
-            border-right: 1px solid rgba(224, 224, 224, 0.5); /* ปรับความทึบแสง */
-        }
-
-        .sidebar-header {
-            text-align: center;
-            padding: 10px 0 35px;
-            border-bottom: 1px solid rgba(240, 240, 240, 0.5); /* ปรับความทึบแสง */
-            margin-bottom: 25px;
-        }
-
-        .sidebar-header h3 {
-            color: #333;
-            margin: 0;
-            font-size: 1.35em;
-            font-weight: 600;
-        }
-
-        .sidebar-header p {
-            color: #888;
-            font-size: 0.9em;
-            margin: 8px 0 0;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .menu-item {
+            background-color: var(--bg-light);
+            z-index: 9999;
             display: flex;
             align-items: center;
-            padding: 18px 30px;
-            cursor: pointer;
-            font-size: 1.05em;
-            font-weight: 500;
-            color: #555;
-            transition: background-color 0.2s ease, color 0.2s ease;
-            border-left: 5px solid transparent;
+            justify-content: center;
         }
 
-        .menu-item:hover {
-            background-color: rgba(245, 245, 245, 0.8); /* ปรับความทึบแสง */
-            color: #d9534f;
+        #loginPage .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
         }
 
-        .menu-item.active {
-            background-color: rgba(253, 232, 232, 0.9); /* ปรับความทึบแสง */
-            color: #d9534f;
-            border-left: 5px solid #d9534f;
+        #loginPage h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        #loginPage label {
+            display: block;
+            margin: 10px 0 5px;
             font-weight: 600;
         }
 
-        .menu-icon {
-            width: 22px;
-            height: 22px;
-            margin-right: 18px;
-            fill: currentColor;
+        #loginPage input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
         }
 
-        /* Main Content Area */
-        .main-content {
-            flex-grow: 1;
-            padding: 30px 40px;
-            background-color: rgba(233, 239, 245, 0.7); /* ปรับความทึบแสงเพื่อให้เห็นพื้นหลัง */
+        .login-btn {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 1.1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            margin-top: 20px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(205, 92, 92, 0.3);
+        }
+
+        .login-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .logout-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            background-color: var(--critical-color);
+            color: var(--bg-white);
+            border: none;
+            border-radius: var(--button-border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+        }
+
+        .logout-btn i {
+            margin-right: 8px;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* Main Body Styles */
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: var(--bg-light);
+            display: flex;
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
+
+        
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%); 
+            color: var(--text-light);
+            padding: 25px 0;
+            position: fixed;
+            height: 100%;
+            box-shadow: var(--shadow-medium);
             display: flex;
             flex-direction: column;
-            overflow-y: auto;
+            align-items: center;
+            border-right: 1px solid rgba(255,255,255,0.1);
         }
 
-        .header {
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--primary-color); 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .sidebar button {
+            display: flex;
+            align-items: center;
+            width: calc(100% - 40px);
+            padding: 15px 20px;
+            margin: 8px 0;
+            border: none;
+            background: none;
+            color: var(--text-light);
+            text-align: left;
+            cursor: pointer;
+            font-size: 17px;
+            font-weight: 500;
+            border-radius: var(--button-border-radius);
+            transition: background-color 0.3s ease, transform 0.15s ease, box-shadow 0.2s ease;
+            box-shadow: var(--shadow-light);
+        }
+
+        .sidebar button:hover {
+            background: #4a627a; 
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .sidebar button::before {
+            content: attr(data-icon);
+            margin-right: 12px;
+            font-size: 20px;
+        }
+
+        
+        .sidebar button.active {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            font-weight: 600;
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-1px);
+        }
+        .sidebar button.active:hover {
+            background-color: var(--primary-dark);
+            box-shadow: var(--shadow-strong);
+        }
+
+        /* Main Content Styles */
+        .main {
+            margin-left: 250px;
+            padding: 30px;
+            width: calc(100% - 250px);
+            flex-grow: 1;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.05);
+        }
+
+        .section {
+            background: var(--bg-white);
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-medium);
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 16px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--input-border-radius);
+            font-size: 16px;
+            color: var(--text-dark);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            outline: none;
+            background-color: #fcfcfc;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus,
+        select:focus {
+            border-color: var(--primary-color);
+            
+            box-shadow: 0 0 0 4px rgba(205, 92, 92, 0.25);
+        }
+
+        button {
+            margin-top: 25px;
+            padding: 14px 28px;
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            border: none;
+            
+            border-radius: var(--button-border-radius); 
+            cursor: pointer;
+            font-size: 17px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.15s ease, box-shadow 0.2s ease;
+            
+            box-shadow: 0 4px 10px rgba(205, 92, 92, 0.2);
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            
+            box-shadow: 0 6px 15px rgba(205, 92, 92, 0.3);
+        }
+
+        .toggle-btn {
+            background: var(--secondary-color);
+            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2);
+        }
+
+        .toggle-btn:hover {
+            background-color: var(--secondary-dark);
+            box-shadow: 0 6px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        /* Export button specific styling */
+        .export-icon-btn { 
+            padding: 10px 15px; 
+            font-size: 18px; 
+            margin-top: 0; 
+            background: none; 
+            border: none; 
+            color: var(--primary-color); 
+            box-shadow: none; 
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+            min-width: unset; 
+            transition: color 0.3s ease, transform 0.15s ease; 
+            
+            border-radius: var(--button-border-radius); 
+        }
+
+        .export-icon-btn:hover {
+            background: none; 
+            color: var(--primary-dark); 
+            transform: translateY(-2px); 
+            box-shadow: none; 
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 25px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-medium);
+            background-color: var(--bg-white);
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 14px 18px;
+            text-align: left;
+            font-size: 15px;
+            color: var(--text-dark);
+        }
+        
+        td {
+            word-break: break-all;
+        }
+
+        th {
+            background: var(--primary-color);
+            color: var(--text-light);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border-color: var(--primary-dark); 
+            text-align: center; 
+        }
+
+        
+        th:first-child { border-top-left-radius: var(--border-radius); }
+        th:last-child { border-top-right-radius: var(--border-radius); }
+        tr:last-child td:first-child { border-bottom-left-radius: var(--border-radius); }
+        tr:last-child td:last-child { border-bottom-right-radius: var(--border-radius); }
+
+
+        tr:nth-child(even) {
+            background-color: #f1f5f8; 
+        }
+
+        tr:hover {
+            background-color: #e2e6ea; 
+        }
+
+        /* Utility class for spacing */
+        .mb-20 { margin-bottom: 20px; }
+
+        /* Stock status styles - Improved */
+        .status-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            padding: 0; 
+        }
+
+        .status-circle {
+            display: inline-block;
+            width: 18px; 
+            height: 18px;
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-right: 8px;
+            border: 1px solid rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .status-reorder-critical .status-circle {
+            background-color: var(--critical-color);
+            animation: blink-red 1s infinite alternate;
+        }
+
+        .status-ok .status-circle {
+            background-color: var(--ok-color);
+        }
+
+        @keyframes blink-red {
+            from { opacity: 1; }
+            to { opacity: 0.5; }
+        }
+
+        /* Modal specific styles */
+        .modal-overlay, .message-box-overlay, .confirm-box-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.show, .message-box-overlay.show, .confirm-box-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content, .message-box-content, .confirm-box-content {
+            background-color: var(--bg-white);
+            padding: 35px; 
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-strong); 
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            transform: translateY(-30px); 
+            transition: transform 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        .modal-overlay.show .modal-content,
+        .message-box-overlay.show .message-box-content,
+        .confirm-box-overlay.show .confirm-box-content {
+            transform: translateY(0);
+        }
+        .modal-content h2, .message-box-content h3, .confirm-box-content h3 {
+            margin-bottom: 25px;
+            color: var(--primary-color);
+            font-size: 26px;
+            font-weight: 700;
+        }
+        .modal-body p, .message-box-content p, .confirm-box-content p {
+            margin-bottom: 15px;
+            font-size: 17px;
+            color: var(--text-dark);
+            text-align: left;
+            line-height: 1.5;
+        }
+        .modal-body strong {
+            display: inline-block;
+            width: 120px;
+            text-align: right;
+            margin-right: 15px;
+            font-weight: 600;
+        }
+        .modal-actions button, .message-box-content button, .confirm-box-actions button {
+            margin: 20px 10px 0 10px;
+            min-width: 130px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: var(--button-border-radius);
+            box-shadow: var(--shadow-light);
+        }
+        .modal-actions .cancel-btn, .confirm-box-actions .cancel-btn-confirm {
+            background-color: var(--accent-color);
+        }
+        .modal-actions .cancel-btn:hover, .confirm-box-actions .cancel-btn-confirm:hover {
+            background-color: var(--accent-dark);
+        }
+        .message-box-content button {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+        }
+        .message-box-content button:hover {
+            background-color: var(--primary-dark);
+        }
+        .confirm-box-actions .confirm-btn {
+            background-color: var(--critical-color);
+            color: var(--bg-white);
+        }
+        .confirm-box-actions .confirm-btn:hover {
+            background-color: #c82333;
+        }
+
+        
+        .receive-page-controls,
+        .page-header-controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 35px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(224, 224, 224, 0.5); /* ปรับความทึบแสง */
+            margin-bottom: 30px; /
+            flex-wrap: wrap;
+        }
+        .page-header-controls h1 {
+            margin-bottom: 0;
+            flex-grow: 1; 
+            text-align: left; 
+        }
+        .page-header-controls .export-icon-btn { 
+            margin-left: 20px; 
         }
 
-        .header h2 {
-            margin: 0;
-            color: #333;
-            font-size: 2em;
-            font-weight: 600;
+        .rm-SEMI-tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; 
+            justify-content: flex-start;
         }
 
-        .export-button {
-            background-color: #dc3545;
-            color: white;
-            padding: 10px 22px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.05em;
-            font-weight: bold;
-            transition: background-color 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        .material-tag {
+            position: relative;
+            width: 5.5cm; 
+            height: 4.5cm; 
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-medium);
+            padding: 8px; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            font-size: 0.8em; 
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            background-color: var(--bg-white);
+            overflow: hidden; 
         }
 
-        .export-button:hover {
-            background-color: #c82333;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        .material-tag:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-strong);
         }
 
-        /* Content Panel Styling (for each module) */
-        .content-panel {
-            background-color: rgba(255, 255, 255, 0.9); /* ปรับความทึบแสงเพื่อให้เห็นพื้นหลัง */
-            padding: 35px;
-            border-radius: 10px;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
-            display: none;
-            margin-bottom: 30px;
-        }
-
-        .content-panel.active {
-            display: block;
-        }
-
-        /* Form Styling */
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: #555;
-            font-size: 0.95em;
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="number"],
-        .form-group select {
-            width: calc(100% - 28px);
-            padding: 14px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1em;
-            box-sizing: border-box;
-            background-color: rgba(253, 253, 253, 0.8); /* ปรับความทึบแสง */
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .form-group input[type="text"]:focus,
-        .form-group input[type="number"]:focus,
-        .form-group select:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-            outline: none;
-        }
-
-        /* Specific styling for dropdown arrows */
-        .form-group select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg fill="%23888" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 20px;
-        }
-
-        .save-button {
-            background-color: #dc3545;
-            color: white;
-            padding: 14px 30px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1.15em;
-            font-weight: bold;
-            transition: background-color 0.2s ease, box-shadow 0.2s ease;
-            width: auto;
-            display: block;
-            margin-top: 35px;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-        }
-
-        .save-button:hover {
-            background-color: #c82333;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        /* Table Container for Scrollability */
-        /* Removed max-height and overflow-y for #reportWIPTable */
-        .table-container {
-            margin-top: 15px;
-            border: 1px solid rgba(240, 240, 240, 0.5);
-            border-radius: 8px;
-            background-color: rgba(255, 255, 255, 0.9);
-        }
-        /* Specific scroll for history tables */
-        #receiveHistoryTable.table-container,
-        #requestHistoryTable.table-container {
-            max-height: 300px; /* Adjust as needed for history tables */
-            overflow-y: auto;
-        }
-
-
-        /* Table Styling */
-        table {
+        .tag-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9em;
-            overflow: hidden; /* Ensures rounded corners apply to content */
-        }
-
-        table th, table td {
-            border: 1px solid rgba(240, 240, 240, 0.5); /* ปรับความทึบแสง */
-            padding: 12px 15px;
+            padding: 5px 0;
             text-align: left;
         }
-
-        table th {
-            background-color: rgba(248, 248, 248, 0.7); /* ปรับความทึบแสง */
-            font-weight: 600;
-            color: #555;
-            text-transform: uppercase;
-            font-size: 0.85em;
-            position: sticky; /* Make table headers sticky */
-            top: 0; /* Stick to the top of the container */
-            z-index: 1; /* Ensure header is above scrolling content */
+        .tag-info p {
+            margin: 2px 0; 
+            line-height: 1.3;
+            word-break: break-word;
+            font-size: 0.9em;
         }
 
-        table tbody tr:nth-child(even) {
-            background-color: rgba(250, 250, 250, 0.6); /* ปรับความทึบแสง */
+        .tag-sapid {
+            font-size: 1.1em; 
+            font-weight: 700;
+            color: var(--primary-dark); 
         }
 
-        table tbody tr:hover {
-            background-color: rgba(240, 240, 240, 0.7); /* ปรับความทึบแสง */
+        .tag-description {
+            font-size: 0.9em;
+            color: var(--text-dark);
         }
 
-        /* Search and Filter layout for Dashboard */
-        .report-controls {
-            display: flex;
-            gap: 20px; /* Space between elements */
-            margin-bottom: 25px;
-            align-items: center;
-        }
-
-        .report-controls .form-group {
-            margin-bottom: 0; /* Remove default form-group margin */
-            flex: 1; /* Allow them to grow */
-        }
-
-        .report-controls .form-group label {
-            margin-bottom: 5px; /* Adjust label margin */
-        }
-
-        #searchReport, #filterProcessReport {
-            width: 100%; /* Make them fill their flex container */
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+        .tag-qty-display {
             font-size: 1em;
-            box-sizing: border-box;
-            background-color: rgba(253, 253, 253, 0.8); /* ปรับความทึบแสง */
+            font-weight: 600;
+            color: var(--secondary-dark); 
+            cursor: pointer;
+            margin-top: 5px;
+            padding: 2px 0;
+            width: 100%;
+            text-align: center;
         }
-        #searchReport:focus, #filterProcessReport:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-            outline: none;
+        .tag-qty-display:hover {
+            text-decoration: underline;
         }
+
+        .tag-qty-display input[type="number"] {
+            width: 70px; 
+            padding: 2px 5px;
+            font-size: 1em;
+            text-align: center;
+            border-color: var(--primary-color);
+            border-radius: var(--input-border-radius);
+        }
+
+        .tag-date {
+            width: calc(100% + 16px); 
+            margin: 0 -8px -8px -8px; 
+            padding: 5px 8px; 
+            background-color: #f0f0f0;
+            color: var(--text-dark);
+            font-size: 0.8em;
+            font-weight: 500;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); 
+        }
+
+        /* Monthly colors for dates - Ensure good contrast */
+        .month-color-0 { background-color: #FFADAD; color: #550000; } /* January - Light Red */
+        .month-color-1 { background-color: #FFD6A5; color: #553500; } /* February - Light Orange */
+        .month-color-2 { background-color: #FDFFB6; color: #555500; } /* March - Light Yellow */
+        .month-color-3 { background-color: #CAFFBF; color: #005500; } /* April - Light Green */
+        .month-color-4 { background-color: #9BF6FF; color: #003355; } /* May - Light Cyan */
+        .month-color-5 { background-color: #A0C4FF; color: #002255; } /* June - Light Blue */
+        .month-color-6 { background-color: #BDB2FF; color: #220055; } /* July - Light Purple */
+        .month-color-7 { background-color: #FFC6FF; color: #550055; } /* August - Light Magenta */
+        .month-color-8 { background-color: #E0BBE4; color: #440044; } /* September - Lilac */
+        .month-color-9 { background-color: #957DAD; color: #220022; } /* October - Muted Purple */
+        .month-color-10 { background-color: #A2D2FF; color: #003355; } /* November - Sky Blue */
+        .month-color-11 { background-color: #BEE9E4; color: #004444; } /* December - Teal */
+
+
+        .tag-delete-btn { 
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            background-color: var(--critical-color);
+            color: var(--bg-white);
+            border: none;
+            border-radius: 0 var(--border-radius) 0 var(--border-radius);
+            width: 25px; 
+            height: 25px;
+            font-size: 16px; 
+            cursor: pointer;
+            transition: background-color 0.2s ease, opacity 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+            line-height: 1;
+            opacity: 0.9;
+            z-index: 5;
+            font-weight: bold;
+        }
+        .tag-delete-btn:hover {
+            background-color: #c82333;
+            opacity: 1;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                padding: 15px 0;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+            .sidebar h2 {
+                width: 100%;
+                margin-bottom: 15px;
+                font-size: 22px;
+            }
+            .sidebar button {
+                width: auto;
+                margin: 5px 10px;
+                padding: 10px 15px;
+                font-size: 15px;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+                text-align: center; 
+                margin-bottom: 20px;
+            }
+
+            .section {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+
+            label {
+                margin-top: 15px;
+                margin-bottom: 5px;
+                font-size: 15px;
+            }
+
+            input[type="text"],
+            input[type="number"],
+            input[type="date"],
+            select {
+                padding: 10px 12px;
+                font-size: 15px;
+            }
+
+            button {
+                padding: 12px 20px;
+                font-size: 15px;
+                margin-top: 20px;
+            }
+
+            table {
+                margin-top: 20px;
+            }
+
+            th, td {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+
+            .modal-content, .message-box-content, .confirm-box-content {
+                padding: 25px;
+                max-width: 95%;
+            }
+            .modal-content h2, .message-box-content h3, .confirm-box-content h3 {
+                font-size: 22px;
+                margin-bottom: 20px;
+            }
+            .modal-body p, .message-box-content p, .confirm-box-content p {
+                font-size: 15px;
+            }
+            .modal-actions button, .message-box-content button, .confirm-box-actions button {
+                min-width: 100px;
+                padding: 10px 15px;
+                font-size: 14px;
+                margin: 15px 5px 0 5px;
+            }
+            .page-header-controls {
+                flex-direction: column;
+                align-items: center; 
+                margin-bottom: 20px;
+            }
+            .page-header-controls h1 {
+                text-align: center;
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            .page-header-controls .export-icon-btn { 
+                width: 100%;
+                margin-top: 15px;
+                margin-left: 0;
+            }
+            
+            .rm-SEMI-tags-container { 
+                justify-content: center;
+                gap: 15px;
+            }
+            .material-tag {
+                width: 48%; 
+                height: 180px; 
+                padding: 6px;
+                font-size: 0.75em;
+            }
+            .material-tag p {
+                font-size: 0.8em;
+            }
+            .material-tag .tag-sapid {
+                font-size: 0.9em;
+            }
+            .tag-delete-btn {
+                width: 22px;
+                height: 22px;
+                font-size: 14px;
+            }
+            .tag-select-checkbox {
+                width: 18px;
+                height: 18px;
+            }
+            /* Location page responsive */
+            .location-grid-container {
+                display: grid; 
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+                gap: 20px;
+                justify-items: center;
+                align-items: start;
+            }
+            .rack-container {
+                width: 100%; 
+                min-width: unset;
+            }
+            .bins-grid {
+                grid-template-columns: repeat(6, 1fr); 
+                gap: 6px;
+            }
+            .bin-item {
+                width: 40px;
+                height: 35px;
+                font-size: 0.75em;
+            }
+        }
+
+        /* Styles for scrollable table bodies */
+        .table-container { 
+            max-height: 600px; 
+            overflow-y: auto;
+            border: 1px solid var(--border-color); 
+            border-radius: var(--border-radius);
+            margin-top: 15px; 
+        }
+
+        .table-container table {
+            margin-top: 0; 
+            border-radius: 0; 
+            box-shadow: none; 
+            border: none; 
+        }
+
+        .table-container thead {
+            position: sticky;
+            top: 0;
+            background: var(--primary-color);
+            z-index: 1; 
+        }
+
+        .table-container th {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+        .table-container tr:first-child th:first-child { border-top-left-radius: var(--border-radius); }
+        .table-container tr:first-child th:last-child { border-top-right-radius: var(--border-radius); }
     </style>
-    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <h3>WIP PIPE B12 MANAGEMENT</h3>
-            <p>SNC CREATIVITY ANTHOLOGY</p>
+
+    <!--  Login Page -->
+<div id="loginPage" class="page" style="display: block;">
+    <div style="max-width: 500px; min-height: 400px; margin: 100px auto; background: white; padding: 50px 40px; border-radius: 15px; box-shadow: var(--shadow-medium);">
+        <h2 style="text-align:center; color: var(--primary-color);">Login</h2>
+        <label for="employeeId">Employee ID</label>
+        <input type="text" id="employeeId" placeholder="Enter ID" />
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter Password" />
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="login-btn" onclick="login()">Login</button>
         </div>
-        <ul class="sidebar-menu">
-            <li class="menu-item active" data-tab="receive">
-                <img src="data:image/svg+xml;base64,PHN2ZyBhcmlhLWdpZGRlbi0iYnJpY2stZnVsbCIgZGF0YS1iconltaWdlPSJicmFz-ZmFzdCIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIGZpbGw9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIwIiB2aWV3Qm94QXJlYT0iMCAwIDUxMiA1MTIiIHZpZXdCb3hBcmVhPSIwIDAgNTEyIDUxMiIgcGF0aCBkPSJNMjQ4IDMyLjAxQzE1MS4wNCAzMi4wMSAxMDguNjQgODcuMzkgMTA4LjY0IDE2NC4wMUMxMDguNjQgMTg5LjMxIDEwOS43NiAxOTcuOTUgMTEzLjA3IDIwMi40QzExNS45MiAyMDYuMjggMTE4LjA4IDIxMC4wOCAxMjAuMDUgMjEzLjVDMTQ0LjggMjQ3Ljk2IDE4Mi4yMyAyNzcuMzcgMjI4LjQ4IDI5Ni42QzI2Ny44OSAzMTIuMTYgMzA4LjAzIDMzNC4zMyAzMzcuMDIgMzUyLjQ2QzM1Ni43OSAzNjQuNzggMzc2LjU2IDM4OC4xMiAzOTYuNzIgMzg5LjczQzQxMy45NSAzOTkuODIgNDMwLjkgNDA4Ljg1IDQ0OC40IDQxNi45NkM0OTQuOTIgNDM4LjY0IDU0Ny45NiA0MzcuNDQgNTU4LjYgNDQ3Ljc2QzU2NS41MiA0NTQuNDggNTcwLjQ4IDQ2MC42NyA1NzYuMDMgNDY3LjI1QzU4OC4zMiA0ODIuMzEgNTgyLjggNTEyIDU3NiA1MTJIMTA0LjgyQzExLjU5IDUxMiAtNDguNzYgNDE4LjY0IDMyLjAxIDI3My40OUwxNzIuNTkgNDAuMjU1QzE2MS4yOCA4Ljc1NSAxMjcuMjYgLTkuNDQ1IDk0LjMyIC4wMDVDMzkuNzE2IDE2LjgyMzk5OTk5OTk5OTk4IDMuMDM2IDU1LjAxIDEuNDggODUuMjYzQy0yLjA1MiAxNTcuMDkgMi4wMzcgMTgxLjYzIDIuMDM3IDE4MS42M0wyLjAzNyAyNDguMjVDMi4wMzcgMjQ4LjI1IDE5LjkuMjc0LjY1IDczLjk4IDI4Ny4zOEMxMTQuNzUgMjk4LjQ3IDE3OC4zOCAzMjUuNDcgMjIwLjE1IDM2Mi40MkMyNzUuNDcgNDA5LjM3IDM0MS42OCA0MTMuOTIgMzY3LjA3IDQwOC43M0M0NTMuNjcgMzg0Ljg4IDUwNS41MiAzNDkuNzQgNTE3LjQ3IDMzOC43NUM1MjkuNzIgMzI3LjY2IDUzOS42MyAzMTcuNTQgNTUzLjIzIDMwNC4wM0M1NjcuNzggMjkwLjA5IDU4MS4wNCAyNzIuOTkgNTg2LjU3IDI0OC4yM0M1OTQuNjUgMjE2LjAyIDU5Mi43MzU0OCAxNzUuMDQgNTU4Ljg2IDE0Ni4zMUcxNS4yMSAxMzQuMzMgNTg1LjQ4IDEzMC44MSAxNzQuNjcgMTc0LjYzIDQ0Mi41MiA2NS45NiAzNzcuNTMgMzIuMDEgMjQ4IDMyLjAxWiIvPjwvc3ZnPg==" alt="Receive Icon" class="menu-icon">
-                Receive WIP
-            </li>
-            <li class="menu-item" data-tab="report">
-                <img src="data:image/svg+xml;base64,PHN2ZyBzdHJva2U9ImN1cnJlbnRDb2xvciIgZmlsbD0iY3VycmVudENvbG9yIiBzdHJva2Utd2lkdGg9IjAiIHZpZXdCb3hBcmVhPSIwIDAgNTEyIDUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGFyaWEtaGlkZGVuPSJ0cnVlIiBmb2N1c2FibGU9ImZhbHNlIj48cGF0aCBkPSJNNjQgMTQ0SDM4NGMtMzUuMzQgMC02NC0yOC42Ni02NC02NFYyNC4wMDNDMzIwLTQuMzMzIDMwNC4wNi01LjQ1MyAyODcuNjQgMS44MTNDMjc1LjU3IDYuMTEzIDI2MC4wMyAxNC4xNiAyNDguMDEgMjYuNTlDMjMyLjY1IDQyLjMyIDIyMy4xMyA2Ni4yIDIyMy4xMyA4OS44OTVTMjI3Ljc1IDExNS41MyAyMjUgMTE4LjUgMTkyIDExMi4wMDVDMTYwIDExMi4wMDUgMTQ1LjU5IDEwNS42MiAxMjguMDYgODYuMzg3QzEwNy4yNTYgNjguNjI1IDEwMS40NCA0NC4xODUgOTMuNjM4OTg5OTk5OTk5OTUgNDIuNjI1QzgwLjUzODk5OTk5OTk5OTk5OSAzNzQ4NTc4LjY2ODk5OTk5OTk5OTkgMzYuMjA1NzUuODA5IDM1LjA2NUM0MS4zMDkgMjIuNTM5IDguOTM5IDYyLjc5NSA4LjkzOSAxMDAuNjQ1VjI2Ny43NjVDLTYuNjYxIDI5My4zNzAzMzIgMzMuMzcgMzUzLjczMzcgMzg2LjkxIDM5Ni4xMjQ4OTk5OTk5OTk5OTk5NDUuNTMgNDQ5LjIyIDM5OS42NyA0NDguMTEgNDExLjUyIDQ0MC4xIDQ3MS42MiA0OTAuOTggNTI0LjUyIDQ4OC4wMyA1NTMuMDcgNDgwLjU4IDM4Ljc2IDM5OS4wOCAxMS41OSA1LjczOSAzMzMuMjI1IDQ3LjUzOSAzNTUuNDE1OTk5OTk5OTk5OTk5OTk5IDk5LjE5OSAzODEuNjA1IDE3NC4yMyA0MTEuNzE1IDI1MC4wMSA0MTcuNjY1QzI1OC4wMSA0MTguNTU1IDI2NC42NiA0MTguNzM1IDI3Mi4wMSA0MTguNTU1QzI5Ny40NyA0MTcuMDE1IDMyNC42NiA0MTAuMTQ1IDM0Ni40NSAzOTIuMzM1QzM2MC40IDM4MS42MTUgMzc3LjQ1IDM2OS41ODUgMzk3LjM5IDM2MS41MTVDNDE3LjM1IDM1My40NDUgNDI3LjU1IDM0NC44MjUgNDQwLjQ1IDMzNC44NjVDNDUzLjM3IDMyNC45MTUgNDY3LjU4IDMxNy43NzUgNDgwLjE1IDMxNy43NzVDNTA5LjczOTk5OTk5OTk5OTk0IDMxNy43NzUgNTEyIDMxOS45MjUgNTEyIDM1MC4zNzVWNDQ4YTY0IDY0IDAgMCAwIDY0IDY0SDUzNmE2NCA2NCAwIDAgMCA2NC02NFYxNDRoNDgwWm0tNjQgNTYuMDA1TDQ4MCAyODguMDA1TDQ4MCAyNTYuMDA1TDUzNiAyNTYuMDA1TDUzNiAyMDAuMDA1Wk00NDggNDQ4YTMyIDMyIDAgMCAwLTMyIDMySDc2YTMyIDMyIDAgMCAwLTMyLTMyVjExNy4yMzVDNzYgNzYuMzE1IDEzOC40NiA3Ljk0NSAxNzUuNzMgNy45NDVIMjQ4LjAxMmM4NS44OSAwIDg3LjYzIDg5LjE3IDg3LjYyNjA3IDg5LjM3aDI4Ljg0OEMzNjQuODUgOTYuOTc1IDM3My4xOCA5OS41NjUgMzc5LjU2IDExNC40ODVDMzkxLjMyIDExMi44NDUgMzk2LjY1IDEyOC4zMzUgMzk2LjY1IDE0Ni4zMjVIMzcwTDMzNy41IDE0NC4wMjVMMzM3IDE3Ni43ODVIMzY5Ljk2TDQ0OCAyMDAuMDA1VjQ0OHoiLz48L3N2Zz4=" alt="Report Icon" class="menu-icon">
-                Report WIP
-            </li>
-            <li class="menu-item" data-tab="request">
-                <img src="data:image/svg+xml;base64,PHN2ZyBzdHJva2U9ImN1cnJlbnRDb2xvciIgZmlsbD0iY3VycmVudENvbG9yIiBzdHJva2Utd2lkdGg9IjAiIHZpZXdCb3hBcmVhPSIwIDAgNTc2IDUxMiIgdmlld0JveD0iMCAwIDU3NiA1MTIiIGFyaWEtaGlkZGVuPSJ0cnVlIiBmb2N1c2FibGU9ImZhbHNlIj48cGF0aCBkPSJNMjQ4IDMyLjAxQzE1MS4wNCAzMi4wMSAxMDguNjQgODcuMzkgMTA4LjY0IDE2NC4wMUMxMDguNjQgMTg5LjMxIDEwOS43NiAxOTcuOTUgMTEzLjA3IDIwMi40QzExNS45MiAyMDYuMjggMTE4LjA4IDIxMC4wOCAxMjAuMDUgMjEzLjVDMTQ0LjggMjQ3Ljk2IDE4Mi4yMyAyNzcuMzcgMjI4LjQ4IDI5Ni42QzI2Ny44OSAzMTIuMTYgMzA4LjAzIDMzNC4zMyAzMzcuMDIgMzUyLjQ2QzM1Ni43OSAzNjQuNzggMzc2LjU2IDM4OC4xMiAzOTYuNzIgMzg5LjczQzQxMy45NSAzOTkuODIgNDMwLjkgNDA4Ljg1IDQ0OC40IDQxNi45NkM0OTQuOTIgNDM4LjY0IDU0Ny45NiA0MzcuNDQgNTU4LjYgNDQ3Ljc2QzU2NS41MiA0NTQuNDggNTcwLjQ4IDQ2MC42NyA1NzYuMDMgNDY3LjI1QzU4OC4zMiA0ODIuMzEgNTgyLjggNTEyIDU3NiA1MTJIMTA0LjgyQzExLjU5IDUxMiAtNDguNzYgNDE4LjY0IDMyLjAxIDI3My40OUwxNzIuNTkgNDAuMjU1QzE2MS4yOCA4Ljc1NSAxMjcuMjYgLTkuNDQ1IDk0LjMyIC4wMDVDMzkuNzE2IDE2LjgyMzk5OTk5OTk5OTk4IDMuMDM2IDU1LjAxIDEuNDggODUuMjYzQy0yLjA1MiAxNTcuMDkgMi4wMzcgMTgxLjYzIDIuMDM3IDE4MS42M0wyLjAzNyAyNDguMjVDMi4wMzcgMjQ4LjI1IDE5LjkgOTcuNzUgNzMuOTggMjg3LjM4QzExNC43NSAyOTguNDcgMTc4LjM4IDMyNS40NyAyMjAuMTUgMzYy.NDJDMjc1LjQ3IDQwOS4zNyAzNDEuNjggNDEzLjkyIDM2Ny4wNyA0MDguNzNDNDUzLjY3IDM4NC44OCA1MDUuNTIgMzQ5Ljc0IDUxNy40NyAzMzguNzVDNTI5LjcyIDMyNy42NiA1MzkuNjMgMzE3LjU0IDU1My4yMyAzMDQuMDNDNTY3Ljc4IDI5MC4wOSA1ODEuMDQgMjcyLjk5IDU4Ni41NyAyNDguMjNDNTk0LjY1IDIxNi4wMiA1OTIuNzM1NDggMTc1LjA0IDU1OC44NiAxNDYuMzFUzMTUuMjEgMTM0LjMzIDUxNi43IDExNy45Qzc3OC41NyA5MS4yM0M0NDIuNTIgNjUuOTYgMzc3LjUzIDMyLjAxIDI0OCAzMi4wMVoiLz48L3N2Zz4=" alt="Request Icon" class="menu-icon">
-                Request WIP
-            </li>
-            <li class="menu-item" data-tab="history">
-                <img src="data:image/svg+xml;base64,PHN2ZyBzdHJva2U9ImN1cnJlbnRDb2xvciIgZmlsbD0iY3VycmVudENvbG9yIiBzdHJva2Utd2lkdGg9IjAiIHZpZXdCb3hBcmVhPSIwIDAgNTEyIDUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGFyaWEtaGlkZGVuPSJ0cnVlIiBmb2N1c2FibGU9ImZhbHNlIj48cGF0aCBkPSJNMjU2IDhDMTE5IDggOCAxMTkgOCAyNTZjMCAxMjYuOTIgMTA5LjAzIDIzMS42NiAyMzQuODkgMjQ2Ljg0bDIxLjExIDIxLjA2YyAzLjY4IDMuNjkgOS4wNyA1LjQxIDE0LjQyIDUuMzlINDMxLjQ2YzguMzYgMCAxNS4zNS00LjYgMTcuNzYtMTMuMzlmMjUuMzQtOTEuMTZIMTI4Yy0yNi41MSAwLTQ4LTIxLjQ5LTQ4LTQ4VjE2MGMwLTI2LjUxIDIxLjQ5LTQ4IDQ4LTQ4aDMyMGMyNi41MSAwIDQ4IDIxLjQ5IDQ4IDQ4djE2MEgyNjdjLTEzLjg2IDAtMjUuMTQtMTEuMjctMjUuMTQtMjUuMTRzMTEuMjggLTI1LjE0IDI1LjE0LTI1LjE0SDM2OGMtMTMuODYgMC0yNS4xNC0xMS4yNy0yNS4xNC0yNS4xNHMxMS4yOC0yNS4xNCAyNS4xNC0yNS4xNEg0NDhjNDcuMjUgMCA4NS45My00My40NSA3OS41Ny05MC44NEM1MzIuNjkgMTU3LjE4IDQwMC43MyA4IDI1NiA4em0zOC4zNSAyNTkuNzZsMTkuMjcgNjkuMzZIMjI4LjM2bC0zOS4yMy0xNDEuMjZIMTQzLjQ5bDEyNy4wOS0xMjcuMDljNjIuNTktNjIuNTkgMTY0LjI0LTYyLjU5IDIyNi44NCAwTDE1MS4zOSAyNTQuMTRDMTA2LjczIDIzNC4zMyA1NS44NCAxOTAuMTkgNjQuNzMgMTE2LjU0QzU2LjExIDMxLjEyIDEwNi4xMi00Ni4xOCAyMTAuNi00NC4zMkgyNTYzNDIgbCA2Mi4xMyAyNy41IDY0LjYgNjEuNjZsLTM0LjI1IDEyMi42NnoiLz48L3N2Z24+" alt="History Icon" class="menu-icon">
-                History
-            </li>
-        </ul>
+    </div>
+</div>
+
+<!--  Sidebar Navigation -->
+<div class="sidebar" style="display: none;">
+    <h2>Material Management PIPE </h2>
+    <button onclick="showPage('receivePage')" data-icon="📦">RECEIVE</button>
+    <button onclick="showPage('dashboardPage')" data-icon="📊">DASHBOARD</button>
+    <button onclick="showPage('otherDashboardPage')" data-icon="⚙️">ACCESSORY</button>
+    <button onclick="showPage('transferPage')" data-icon="📄">ISSUE</button>
+    <button onclick="showPage('requestPage')" data-icon="📝">REQUEST</button>
+    <button onclick="showPage('historyPage')" data-icon="📜">HISTORY</button>
+    <button id="logoutBtn" class="logout-btn" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i> LOGOUT
+    </button>
+</div>
+
+<!--  Main Content Wrapper -->
+<div class="main" style="display: none;">
+
+    <!--  Receive Page -->
+    <div id="receivePage" class="page" style="display:block;">
+        <div class="page-header-controls">
+            <h1>RECEIVE MATERIAL</h1>
+        </div>
+
+        <div class="section" id="manualForm">
+            <label for="sapid">SAP CODE</label>
+            <input type="text" id="sapid" placeholder="Enter SAP ID" />
+
+            <label for="description">DESCRIPTION</label>
+            <input type="text" id="description" placeholder="Enter Description" />
+
+            <label for="groupmat">MATERIAL TYPE</label>
+            <select id="groupmat" name="groupmat">
+                <option value="RM">RAW MATERIAL</option>
+                <option value="SEMI">SEMI-FINISHED GOOD</option>
+                <option value="FG">FINISHED GOOD</option>
+                <option value="COPPEP">COPPER</option>
+                <option value="MAT SUPPLY">MAT SUPPLY</option>
+                <option value="รายการของสิ้นเปลือง">CONSUMABLE SUPPLIES</option>
+            </select>
+
+            <label for="qty">QUANTITY</label>
+            <input type="number" id="qty" min="1" placeholder="Enter Quantity" />
+
+            <label for="unit">UNIT</label>
+            <select id="unit" name="unit">
+                <option value="KG.">KG.</option>
+                <option value="PCS.">PCS.</option>
+                <option value="PAIR">PAIR</option>
+                <option value="GALLON">GALLON</option>
+                <option value="PACK">PACK</option>
+                <option value="REAM">REAM</option>
+                <option value="BOX">BOX</option>
+                <option value="ROLL">ROLL</option>
+            </select>
+
+            <label for="location">LOCATION</label>
+            <input type="text" id="location" placeholder="Enter Location" />
+
+            <button onclick="submitManual()">SAVE</button>
+        </div>
+
+        <div class="section">
+            <div class="tag-print-controls">
+                <button class="export-icon-btn" onclick="printSelectedTags()" title="Export Selected Tags"><i class="fas fa-print"></i></button>
+            </div>
+            <h2>RAW MATERIAL / SEMI / FINISHED GOOD TAGS</h2>
+            <div id="rmSEMITagsContainer" class="rm-SEMI-tags-container">
+                <!-- Tags from STOCKS shown here -->
+            </div>
+        </div>
     </div>
 
-    <div class="main-content">
-        <div class="header">
-            <h2 id="currentModuleTitle">Receive WIP</h2>
-            <button id="exportButton" class="export-button" style="display:none;">EXPORT</button>
+    <!--  Dashboard Page -->
+    <div id="dashboardPage" class="page" style="display:none;">
+        <div class="page-header-controls">
+            <h1>STOCK OVERVIEW </h1>
+            <button class="export-icon-btn" onclick="exportTableToExcel('stockTable', 'Stock_Dashboard')" title="Export to Excel"><i class="fas fa-file-export"></i></button>
         </div>
-
-        <div id="receive" class="content-panel active">
-            <form id="receiveForm">
-                <div class="form-group">
-                    <label for="sapCodeReceive">SAP CODE</label>
-                    <input type="text" id="sapCodeReceive" placeholder="Enter SAP ID" required>
-                </div>
-                <div class="form-group">
-                    <label for="descriptionReceive">DESCRIPTION</label>
-                    <input type="text" id="descriptionReceive" placeholder="Enter Description" required>
-                </div>
-                <div class="form-group">
-                    <label for="quantityReceive">QUANTITY</label>
-                    <input type="number" id="quantityReceive" min="1" placeholder="Enter Quantity" required>
-                </div>
-                <div class="form-group">
-                    <label for="unitReceive">UNIT</label>
-                    <select id="unitReceive" required>
-                        <option value="KG">KG</option>
-                        <option value="PCS">PCS</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="typeReceive">TYPE</label>
-                    <select id="typeReceive" required>
-                        <option value="BOX">BOX</option>
-                        <option value="CARS">CARS</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="processReceive">PROCESS</label>
-                    <select id="processReceive" required>
-                        <option value="">-- Select Process --</option>
-                        <option value="CUTTING">CUTTING</option>
-                        <option value="BENDING">BENDING</option>
-                        <option value="BRAZING">BRAZING</option>
-                        <option value="PACKING">PACKING</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="locationReceive">LOCATION</label>
-                    <input type="text" id="locationReceive" placeholder="Enter Location" required>
-                </div>
-                <div class="form-group">
-                    <label for="jobOrderReceive">JOBORDER</label>
-                    <input type="text" id="jobOrderReceive" placeholder="Enter Job Order" required>
-                </div>
-                <button type="submit" class="save-button">SAVE</button>
-            </form>
-        </div>
-
-        <div id="report" class="content-panel">
-            <h2>Current WIP Inventory</h2>
-            <div class="report-controls">
-                <div class="form-group">
-                    <label for="searchReport">Search (All Fields)</label>
-                    <input type="text" id="searchReport" onkeyup="filterReport()" placeholder="Search...">
-                </div>
-                <div class="form-group">
-                    <label for="filterProcessReport">Filter by Process</label>
-                    <select id="filterProcessReport" onchange="filterReport()">
-                        <option value="">All Processes</option>
-                        <option value="CUTTING">CUTTING</option>
-                        <option value="BENDING">BENDING</option>
-                        <option value="BRAZING">BRAZING</option>
-                        <option value="PACKING">PACKING</option>
-                    </select>
-                </div>
+        <div class="section">
+            <!--  Search + Filter Controls -->
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 15px;">           
+                <label for="materialTypeFilter">TYPE:</label>
+                <select id="materialTypeFilter" onchange="renderStockTable(rmSEMIFgStocks)">
+                    <option value="ALL">ALL</option>
+                    <option value="RM">RAW MATERIAL</option>
+                    <option value="SEMI">SEMI-FINISHED GOOD</option>
+                    <option value="FG">FINISHED GOOD</option>
+                    <option value="MAT SUPPLY">MAT SUPPLY</option>
+                    <option value="COPPEP">COPPER</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="ค้นหา SAP หรือ Description" oninput="renderStockTable(rmSEMIFgStocks)"
+                style="padding: 10px; font-size: 14px; border-radius: 6px; border: 1px solid var(--border-color); width: 250px;">
             </div>
-            <table id="reportWIPTable">
+            <table id="stockTable">
                 <thead>
                     <tr>
                         <th>SAP CODE</th>
                         <th>DESCRIPTION</th>
                         <th>QUANTITY</th>
                         <th>UNIT</th>
-                        <th>TYPE</th>
-                        <th>PROCESS</th>
                         <th>LOCATION</th>
-                        <th>JOBORDER</th>
+                        <th>MATERIAL TYPE</th>
                     </tr>
                 </thead>
-                <tbody>
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
+    </div>
 
-        <div id="request" class="content-panel">
-            <h2>Request WIP</h2>
-            <form id="requestForm">
-                <div class="form-group">
-                    <label for="descriptionRequest">DESCRIPTION</label>
-                    <input type="text" id="descriptionRequest" placeholder="Enter Description" required>
-                </div>
-                <div class="form-group">
-                    <label for="quantityRequest">QUANTITY</label>
-                    <input type="number" id="quantityRequest" min="1" placeholder="Enter Quantity" required>
-                </div>
-                <div class="form-group">
-                    <label for="unitRequest">UNIT</label>
-                    <select id="unitRequest" required>
-                        <option value="KG">KG</option>
-                        <option value="PCS">PCS</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="jobOrderRequest">JOBORDER</label>
-                    <input type="text" id="jobOrderRequest" placeholder="Enter Job Order" required>
-                </div>
-                <div class="form-group">
-                    <label for="requestBy">REQUEST BY</label>
-                    <input type="text" id="requestBy" placeholder="Enter Requester Name" required>
-                </div>
-                <button type="submit" class="save-button">SAVE REQUEST</button>
-            </form>
+    <!-- Accessory Page -->
+    <div id="otherDashboardPage" class="page" style="display:none;">
+        <div class="page-header-controls">
+            <h1>CONSUMABLE SUPPLIES</h1>
+            <button class="export-icon-btn" onclick="exportTableToExcel('otherTable', 'Other_Materials_Dashboard')" title="Export to Excel"><i class="fas fa-file-export"></i></button>
         </div>
+        <div class="section">
+            <table id="otherTable">
+                <thead>
+                    <tr>
+                        <th>SAP CODE</th>
+                        <th>DESCRIPTION</th>
+                        <th>QUANTITY</th>
+                        <th>UNIT</th>
+                        <th>LOCATION</th>
+                        <th>STATUS</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
 
-        <div id="history" class="content-panel">
-            <h2>History</h2>
-            <h3 style="margin-top: 20px;">Receive History</h3>
-            <div id="receiveHistoryTable" class="table-container"> <table>
-                    <thead>
-                        <tr>
-                            <th>Date/Time</th>
-                            <th>SAP CODE</th>
-                            <th>DESCRIPTION</th>
-                            <th>QUANTITY</th>
-                            <th>UNIT</th>
-                            <th>TYPE</th>
-                            <th>PROCESS</th>
-                            <th>LOCATION</th>
-                            <th>JOBORDER</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+    <!--  Issue Page -->
+    <div id="transferPage" class="page" style="display:none;">
+        <div class="page-header-controls">
+            <h1>ISSUE MATERIAL</h1>
+            <button class="export-icon-btn" onclick="exportTableToExcel('issueTable', 'Issue_History')" title="Export to Excel"><i class="fas fa-file-export"></i></button>
+        </div>
+        <div class="section">
+            <label for="issueSapid">SAP CODE</label>
+            <input type="text" id="issueSapid" />
+            <label for="issueDescription">DESCRIPTION</label>
+            <input type="text" id="issueDescription" />
+            <label for="issueQty">QUANTITY</label>
+            <input type="number" id="issueQty" min="1" />
+            <label for="issueUnit">UNIT</label>
+            <select id="issueUnit">
+                <option value="KG.">KG.</option>
+                <option value="PCS.">PCS.</option>
+                <option value="PAIR">PAIR</option>
+                <option value="GALLON">GALLON</option>
+                <option value="PACK">PACK</option>
+                <option value="REAM">REAM</option>
+                <option value="BOX">BOX</option>
+                <option value="ROLL">ROLL</option>
+            </select>
+            <label for="issueJobOrder">JOB ORDER</label>
+            <input type="text" id="issueJobOrder" />
+            <label for="issueLocation">LOCATION</label>
+            <input type="text" id="issueLocation" />
+            <button onclick="submitIssue()">ISSUE</button>
+        </div>
+    </div>
+
+    <!--  Request Page -->
+    <div id="requestPage" class="page" style="display:none;">
+        <div class="page-header-controls">
+            <h1>MATERIAL REQUEST</h1>
+        </div>
+        <div class="section">
+            <label for="requestDescription">DESCRIPTION</label>
+            <input type="text" id="requestDescription" list="descriptionOptions" />
+            <datalist id="descriptionOptions"></datalist>
+            <label for="requestQty">QUANTITY</label>
+            <input type="number" id="requestQty" min="1" />
+            <label for="requestUnit">UNIT</label>
+            <select id="requestUnit">
+                <option value="KG.">KG.</option>
+                <option value="PCS.">PCS.</option>
+                <option value="PAIR">PAIR</option>
+                <option value="GALLON">GALLON</option>
+                <option value="PACK">PACK</option>
+                <option value="REAM">REAM</option>
+                <option value="BOX">BOX</option>
+                <option value="ROLL">ROLL</option>
+            </select>
+            <label for="requestName">REQUESTER NAME</label>
+            <input type="text" id="requestName" />
+            <label for="requestDepartment">DEPARTMENT</label>
+            <select id="requestDepartment">
+                <option value="">Select Department</option>
+                <option value="CUTTING">CUTTING</option>
+                <option value="BENDING">BENDING</option>
+                <option value="DRILL">DRILL</option>
+                <option value="BRAZING">BRAZING</option>
+                <option value="PACKING">PACKING</option>
+                <option value="SUPPORT">SUPPORT</option>
+            </select>
+            <button onclick="submitRequest()">SUBMIT REQUEST</button>
+        </div>
+    </div>
+
+    <!--  History Page -->
+    <div id="historyPage" class="page" style="display:none;">
+        <div class="page-header-controls">
+            <h1>MATERIAL HISTORY</h1>
+            <button onclick="exportTableToExcel('receiveHistoryTable', 'Receive_History')"><i class="fas fa-file-export"></i></button>
+            <button onclick="exportTableToExcel('issueHistoryTable', 'Issue_History')"><i class="fas fa-file-export"></i></button>
+            <button onclick="exportTableToExcel('pendingRequestsTable', 'Request_History')"><i class="fas fa-file-export"></i></button>
+        </div>
+        <div class="section">
+            <h2>RECEIVE HISTORY</h2>
+            <div class="table-container">
+                <table id="receiveHistoryTable"><thead><tr><th>DATE</th><th>SAP CODE</th><th>DESCRIPTION</th><th>QUANTITY</th><th>UNIT</th><th>LOCATION</th><th>TYPE</th></tr></thead><tbody></tbody></table>
             </div>
-
-            <h3 style="margin-top: 40px;">Request History</h3>
-            <div id="requestHistoryTable" class="table-container"> <table>
-                    <thead>
-                        <tr>
-                            <th>Date/Time</th>
-                            <th>DESCRIPTION</th>
-                            <th>QUANTITY</th>
-                            <th>UNIT</th>
-                            <th>JOBORDER</th>
-                            <th>REQUEST BY</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+        <div class="section">
+            <h2>ISSUE HISTORY</h2>
+            <div class="table-container">
+                <table id="issueHistoryTable"><thead><tr><th>DATE</th><th>SAP CODE</th><th>DESCRIPTION</th><th>QUANTITY</th><th>UNIT</th><th>LOCATION</th><th>TYPE</th><th>JOB ORDER</th><th>REQUESTER NAME</th><th>DEPARTMENT</th></tr></thead><tbody></tbody></table>
+            </div>
+        </div>
+        <div class="section">
+            <h2>REQUEST HISTORY</h2>
+            <div class="table-container">
+                <table id="pendingRequestsTable"><thead><tr><th>DATE</th><th>DESCRIPTION</th><th>QUANTITY</th><th>UNIT</th><th>REQUESTER NAME</th><th>DEPARTMENT</th><th>STATUS</th><th>ACTIONS</th></tr></thead><tbody></tbody></table>
             </div>
         </div>
     </div>
 
+</div>
+
+<!--  Message Box -->
+<div id="messageBox" class="message-box-overlay">
+    <div class="message-box-content">
+        <h3 id="messageBoxTitle"></h3>
+        <p id="messageBoxMessage"></p>
+        <button onclick="closeMessageBox()">OK</button>
+    </div>
+</div>
+
+<!--  Confirm Box -->
+<div id="confirmBox" class="confirm-box-overlay">
+    <div class="confirm-box-content">
+        <h3 id="confirmBoxTitle"></h3>
+        <p id="confirmBoxMessage"></p>
+        <div class="confirm-box-actions">
+            <button class="confirm-btn" id="confirmBoxConfirmBtn">Confirm</button>
+            <button class="cancel-btn-confirm" onclick="hideConfirmBox(false)">Cancel</button>
+        </div>
+    </div>
+</div>
+
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize data from Local Storage or empty arrays
-            let currentWIP = JSON.parse(localStorage.getItem('currentWIP')) || [];
-            let receiveHistory = JSON.parse(localStorage.getItem('receiveHistory')) || [];
-            let requestHistory = JSON.parse(localStorage.getItem('requestHistory')) || [];
+        // Hardcoded user credentials and permissions
+        const users = {
+            PIPEB12: {
+                password: "Pipe@Snc",
+                allowedModules: ["dashboardPage", "otherDashboardPage", "requestPage"]
+            },
+            AdminPipe: {
+                password: "Admin@Snc",
+                allowedModules: ["receivePage", "dashboardPage", "otherDashboardPage", "transferPage", "requestPage", "historyPage"]
+            }
+        };
 
-            // --- Functions to update Local Storage ---
-            const saveWIP = () => localStorage.setItem('currentWIP', JSON.stringify(currentWIP));
-            const saveReceiveHistory = () => localStorage.setItem('receiveHistory', JSON.stringify(receiveHistory));
-            const saveRequestHistory = () => localStorage.setItem('requestHistory', JSON.stringify(requestHistory));
+        let currentUser = null;
 
-            // --- Sidebar Navigation Logic ---
-            const sidebarMenuItems = document.querySelectorAll('.sidebar-menu .menu-item');
-            const contentPanels = document.querySelectorAll('.content-panel');
-            const currentModuleTitle = document.getElementById('currentModuleTitle');
-            const exportButton = document.getElementById('exportButton');
+        function login() {
+            const id = document.getElementById("employeeId").value.trim();
+            const pwd = document.getElementById("password").value.trim();
 
-            // Default active tab on load
-            showContent('receive');
+            if (users[id] && users[id].password === pwd) {
+                currentUser = id;
+                localStorage.setItem('currentUser', id);
+                document.getElementById("loginPage").style.display = "none";
+                document.querySelector(".sidebar").style.display = "flex";
+                document.querySelector(".main").style.display = "block";
+        
+                setTimeout(() => {
+                    document.getElementById("logoutBtn").style.display = "flex";
+                }, 50);
 
-            sidebarMenuItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    const tabId = item.dataset.tab;
-                    showContent(tabId);
-                });
+                setupSidebarPermissions();
+                showPage(users[id].allowedModules[0]);
+            } else {
+                alert("รหัสพนักงานหรือรหัสผ่านไม่ถูกต้อง");
+            }
+        }
+
+        function setupSidebarPermissions() {
+            const sidebarButtons = document.querySelectorAll(".sidebar button");
+            sidebarButtons.forEach(button => {
+                if (button.id === "logoutBtn") {
+                    button.style.display = "flex";
+                    return;
+                }
+
+                const match = button.getAttribute("onclick")?.match(/showPage\('([^']+)'\)/);
+                const page = match ? match[1] : null;
+
+                if (users[currentUser].allowedModules.includes(page)) {
+                    button.style.display = "flex";
+                } else {
+                    button.style.display = "none";
+                }
             });
+        }
+        function logout() {
+            localStorage.removeItem('currentUser');
+            document.getElementById("logoutBtn").style.display = "none"; 
+            location.reload(); 
+        }
 
-            function showContent(tabId) {
-                // Remove active class from all menu items and content panels
-                sidebarMenuItems.forEach(item => item.classList.remove('active'));
-                contentPanels.forEach(panel => panel.classList.remove('active'));
+        // In-memory data storage
+        let rmSEMIFgStocks = []; 
+        let consumableSupplies = []; 
+        let receiveHistoryData = []; 
+        let issueRequestHistoryData = []; 
 
-                // Add active class to the selected menu item and content panel
-                const selectedMenuItem = document.querySelector(`.sidebar-menu .menu-item[data-tab="${tabId}"]`);
-                const selectedContentPanel = document.getElementById(tabId);
+        const BACKEND_URL = 'http://localhost:3000'; 
 
-                if (selectedMenuItem) {
-                    selectedMenuItem.classList.add('active');
-                }
-                if (selectedContentPanel) {
-                    selectedContentPanel.classList.add('active');
-                }
+        window.showMessageBox = function(title, message, type = 'info') {
+            const overlay = document.getElementById('messageBox'); 
+            const content = overlay.querySelector('.message-box-content'); 
+            document.getElementById('messageBoxTitle').innerText = title;
+            document.getElementById('messageBoxMessage').innerText = message;
+            
+            content.classList.remove('info', 'success', 'error', 'warning');
+            content.classList.add(type); 
+            
+            overlay.classList.add('show');
+        }
 
-                // Update Header Title and Export button visibility
-                exportButton.style.display = 'none'; // Hide by default
+       
+        window.closeMessageBox = function() { 
+            document.getElementById('messageBox').classList.remove('show');
+        }
 
-                if (tabId === 'receive') {
-                    currentModuleTitle.textContent = 'Receive WIP';
-                } else if (tabId === 'report') {
-                    currentModuleTitle.textContent = 'Report WIP';
-                    exportButton.style.display = 'block';
-                    exportButton.onclick = exportReportToExcel; // Assign export function
-                    renderReportTable(); // Refresh report table
-                } else if (tabId === 'request') {
-                    currentModuleTitle.textContent = 'Request WIP';
-                    // No export on this page, as history is separate
-                } else if (tabId === 'history') {
-                    currentModuleTitle.textContent = 'History';
-                    exportButton.style.display = 'block';
-                    exportButton.onclick = exportHistoryToExcel; // Assign combined export for history
-                    renderReceiveHistoryTable(); // Refresh receive history
-                    renderRequestHistoryTable(); // Refresh request history
-                }
+        let confirmCallback = null;
+  
+        window.showConfirmBox = function(message, callback) {
+            const overlay = document.getElementById('confirmBox'); 
+            document.getElementById('confirmBoxMessage').innerText = message;
+            confirmCallback = callback;
+            overlay.classList.add('show');
+            document.getElementById('confirmBoxConfirmBtn').onclick = () => window.hideConfirmBox(true);
+            
+        }
+
+       
+        window.hideConfirmBox = function(result) {
+            document.getElementById('confirmBox').classList.remove('show');
+            if (confirmCallback) {
+                confirmCallback(result);
+                confirmCallback = null;
+            }
+        }
+
+        
+        window.showPage = function(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.style.display = 'none';
+            });
+            document.querySelectorAll('.sidebar button').forEach(button => {
+                button.classList.remove('active');
+            });
+            const activePage = document.getElementById(pageId);
+            if (activePage) {
+                activePage.style.display = 'block';
+            }
+            const activeButton = document.querySelector(`.sidebar button[onclick="showPage('${pageId}')"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
             }
 
-            // --- Receive WIP Form Submission ---
-            document.getElementById('receiveForm').addEventListener('submit', (e) => {
-                e.preventDefault();
+            if (pageId === 'dashboardPage') {
+                renderStockTable(rmSEMIFgStocks); 
+            } else if (pageId === 'otherDashboardPage') {
+                renderOtherMaterialsTable(consumableSupplies);
+            } else if (pageId === 'historyPage') {
+                renderHistoryTables();
+            } else if (pageId === 'receivePage') {
+                renderRMTags(rmSEMIFgStocks); 
+            }
+        }
 
-                const sapCode = document.getElementById('sapCodeReceive').value.trim();
-                const description = document.getElementById('descriptionReceive').value.trim();
-                const quantity = parseInt(document.getElementById('quantityReceive').value);
-                const unit = document.getElementById('unitReceive').value;
-                const type = document.getElementById('typeReceive').value;
-                const process = document.getElementById('processReceive').value;
-                const location = document.getElementById('locationReceive').value.trim();
-                const jobOrder = document.getElementById('jobOrderReceive').value.trim();
-
-                // Validation for process selection
-                if (process === "") {
-                    alert("Please select a PROCESS.");
-                    return; // Stop form submission
+        async function fetchAndRenderAllData() {
+            try {
+                const stockRawResponse = await fetch(`${BACKEND_URL}/api/stock/raw`); 
+                if (!stockRawResponse.ok) {
+                    const errorText = await stockRawResponse.text();
+                    throw new Error(`HTTP error! status: ${stockRawResponse.status} from /api/stock/raw. Backend says: ${errorText}`);
                 }
+                rmSEMIFgStocks = await stockRawResponse.json();
+                console.log('[DEBUG] Fetched RM/SEMI/FG Stocks (raw for tags):', rmSEMIFgStocks);
+                renderRMTags(rmSEMIFgStocks); 
 
-                // Check if item already exists in current WIP based on key attributes (SAP Code, Description, Unit, Type, Process, Location, Job Order)
-                const existingItemIndex = currentWIP.findIndex(item =>
-                    item.sapCode === sapCode &&
-                    item.description === description &&
-                    item.unit === unit &&
-                    item.type === type &&
-                    item.process === process &&
-                    item.location === location &&
-                    item.jobOrder === jobOrder
-                );
+                // Fetch SuppliesTable data (Consumable Supplies)
+                const suppliesResponse = await fetch(`${BACKEND_URL}/api/supplies-dashboard`);
+                if (!suppliesResponse.ok) {
+                    const errorText = await suppliesResponse.text();
+                    throw new Error(`HTTP error! status: ${suppliesResponse.status} from /api/supplies-dashboard. Backend says: ${errorText}`);
+                }
+                consumableSupplies = await suppliesResponse.json();
+                console.log('[DEBUG] Fetched Consumable Supplies:', consumableSupplies);
+                renderOtherMaterialsTable(consumableSupplies); 
 
-                if (existingItemIndex > -1) {
-                    // Update quantity if item exists
-                    currentWIP[existingItemIndex].quantity += quantity;
+                // Fetch all Recives data (for both receive and issue history)
+                const allRecivesResponse = await fetch(`${BACKEND_URL}/api/all-recives`);
+                if (!allRecivesResponse.ok) {
+                    const errorText = await allRecivesResponse.text();
+                    throw new Error(`HTTP error! status: ${allRecivesResponse.status} from /api/all-recives. Backend says: ${errorText}`);
+                }
+                const allRecives = await allRecivesResponse.json();
+                console.log('[DEBUG] Fetched All Recives (including issues):', allRecives);
+
+                // Separate receive history (positive qty)
+                receiveHistoryData = allRecives.filter(rec => rec.qty > 0);
+                
+                // Fetch Request History (from PendingRequestsTable)
+                const requestHistoryResponse = await fetch(`${BACKEND_URL}/api/pending-requests`);
+                if (!requestHistoryResponse.ok) {
+                    const errorText = await requestHistoryResponse.text();
+                    throw new Error(`HTTP error! status: ${requestHistoryResponse.status} from /api/pending-requests. Backend says: ${errorText}`);
+                }
+                const requests = await requestHistoryResponse.json();
+                console.log('[DEBUG] Fetched Requests (from PendingRequestsTable):', requests);
+
+                // Combine processed requests with negative entries from Recives for full issue/request history
+                const deductedRecives = allRecives.filter(rec => rec.qty < 0);
+                const combinedIssueRequestHistory = [
+                    ...requests.map(rec => ({
+                        id: rec.id, 
+                        date: rec.request_date,
+                        sapid: rec.sapid, 
+                        description: rec.description,
+                        quantity: rec.qty,
+                        unit: rec.unit,
+                        location: rec.location, 
+                        type: 'REQUEST_PROCESSED', 
+                        jobOrder: rec.joborder || '-', 
+                        requesterName: rec.requester_name,
+                        department: rec.department,
+                        status: rec.status 
+                    })),
+                    ...deductedRecives.map(rec => ({ 
+                        id: rec.id, 
+                        date: rec.created_at,
+                        sapid: rec.sapid,
+                        description: rec.description,
+                        quantity: Math.abs(rec.qty), // Display as positive for issue history
+                        unit: rec.unit,
+                        location: rec.location,
+                        type: 'DIRECT_ISSUE', // This type indicates it came from Recives as a deduction
+                        jobOrder: rec.joborder || '-', 
+                        requesterName: rec.requester_name || '-', 
+                        department: rec.department || '-',
+                        status: 'processed' // Issues are always processed
+                    }))
+                ];
+                // Sort combined history by date (most recent first)
+                issueRequestHistoryData = combinedIssueRequestHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+                console.log('[DEBUG] Final issueRequestHistoryData before rendering:', issueRequestHistoryData);
+
+                renderHistoryTables();
+                renderStockTable(rmSEMIFgStocks); // Re-render dashboard table with aggregated data
+
+            } catch (error) {
+                console.error('Error fetching all data:', error);
+                // Check if the error is a network error (Failed to fetch)
+                if (error instanceof TypeError && error.message === 'Failed to fetch') {
+                    window.showMessageBox('Error', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ โปรดตรวจสอบว่า Backend Server กำลังทำงานอยู่', 'error');
                 } else {
-                    // Add new item if not exists
-                    currentWIP.push({
-                        sapCode, description, quantity, unit, type, process, location, jobOrder
-                    });
+                    window.showMessageBox('Error', `ไม่สามารถโหลดข้อมูลได้: ${error.message}`, 'error');
                 }
+            }
+        }
 
-                // Get current date/time and format it without seconds
-                const now = new Date();
-                const formattedTimestamp = now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+        window.submitManual = async function() {
+            const sapid = document.getElementById('sapid').value;
+            const description = document.getElementById('description').value;
+            const groupmat = document.getElementById('groupmat').value;
+            let qty = parseInt(document.getElementById('qty').value); 
+            const unit = document.getElementById('unit').value;
+            const location = document.getElementById('location').value;
 
-                // Add to receive history
-                receiveHistory.push({
-                    timestamp: formattedTimestamp,
-                    sapCode, description, quantity, unit, type, process, location, jobOrder
+            // Validate initial quantity (must be a positive number)
+            if (!sapid || !description || !groupmat || isNaN(qty) || qty <= 0 || !unit || !location) {
+                window.showMessageBox('Error', 'โปรดกรอกข้อมูลให้ครบถ้วนและถูกต้อง (จำนวนต้องเป็นตัวเลขบวก)', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/receive`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        sapid: sapid,
+                        description: description,
+                        groupmat: groupmat,
+                        qty: qty, 
+                        unit: unit,
+                        location: location,
+                        created_at: new Date().toISOString()
+                    })
                 });
 
-                saveWIP();
-                saveReceiveHistory();
-                renderReportTable(); // Update report table
-                document.getElementById('receiveForm').reset(); // Clear form
+                const result = await response.json();
+
+                if (response.ok) {
+                    window.showMessageBox('Success', result.message, 'success');
+                    await fetchAndRenderAllData(); 
+                    // Clear form
+                    document.getElementById('sapid').value = '';
+                    document.getElementById('description').value = '';
+                    document.getElementById('qty').value = '';
+                    document.getElementById('unit').value = 'KG.';
+                    document.getElementById('location').value = '';
+                    document.getElementById('groupmat').value = 'RM';
+                } else {
+                    window.showMessageBox('Error', `ข้อผิดพลาด: ${result.message || response.statusText}`, 'error');
+                }
+            } catch (error) {
+                console.error('Error submitting manual receive:', error);
+                if (error instanceof TypeError && error.message === 'Failed to fetch') {
+                    window.showMessageBox('Error', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ โปรดตรวจสอบว่า Backend Server กำลังทำงานอยู่', 'error');
+                } else {
+                    window.showMessageBox('Error', `เกิดข้อผิดพลาดในการเชื่อมต่อ: ${error.message}`, 'error');
+                }
+            }
+        }
+
+        function generateMaterialTagHtml(tag) {
+            // Use the actual created_at date from the tag data
+            const createdAtDate = new Date(tag.created_at);
+            const displayDate = createdAtDate.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' }); // Thai locale
+            const monthIndex = createdAtDate.getMonth(); // Get month from the actual created_at date
+            const monthClass = `month-color-${monthIndex}`;
+            const qtyStatusClass = tag.Q_TY <= 0 ? 'status-reorder-critical' : '';
+
+
+            return `
+                <div class="material-tag" data-id="${tag.id}" data-sapid="${tag.SAP_ID}" data-location="${tag.LOCATION}" data-unit="${tag.UNIT}" data-archived="${tag.is_archived || false}">
+                    <input type="checkbox" class="tag-select-checkbox" data-id="${tag.id}" onchange="window.toggleTagSelection(this)">
+                   <button class="tag-delete-btn" onclick="window.hideMaterialTag('${tag.id}')">✖</button> <!-- Changed function call to hideMaterialTag -->
+                    <div class="company-header">SNC CRIATIVITY (SCAN PIPE)</div>
+                    <div class="tag-info">
+                        <p class="tag-sapid">SAP: ${tag.SAP_ID}</p>
+                        <p class="tag-description">${tag.DESCRIPTION}</p>
+                         <p><b>QUANTITY:</b> 
+                            <span class="tag-qty-value ${qtyStatusClass}" onclick="window.editTagQuantity(this, '${tag.id}', ${tag.Q_TY})">
+                                ${tag.Q_TY} ${tag.UNIT}
+                            </span>
+                                </p>
+                        <p>Location: ${tag.LOCATION}</p>
+                    </div>
+                    <div class="tag-date ${monthClass}">${displayDate}</div>
+                </div>
+            `;
+        }
+
+ 
+        function renderRMTags(data) {
+            const container = document.getElementById('rmSEMITagsContainer');
+            container.innerHTML = '';
+
+  
+            const hiddenTags = JSON.parse(localStorage.getItem('hiddenTags') || '[]');
+
+        const filteredData = data.filter(tag => !hiddenTags.includes(tag.id?.toString()));
+
+            if (filteredData.length === 0) {
+                container.innerHTML = '<p>No Tags to Display</p>';
+                return;
+            }
+
+            filteredData.forEach(tag => {
+                container.innerHTML += generateMaterialTagHtml(tag);
             });
+        }
 
-            // --- Request WIP Form Submission ---
-            document.getElementById('requestForm').addEventListener('submit', (e) => {
-                e.preventDefault();
+        
+  
+        function deleteTagFromUI(buttonElement) {
+            const tagElement = buttonElement.closest('.material-tag');
+            if (tagElement) {
+                tagElement.remove();
+            }
+        }
 
-                const description = document.getElementById('descriptionRequest').value.trim();
-                const quantity = parseInt(document.getElementById('quantityRequest').value);
-                const unit = document.getElementById('unitRequest').value;
-                const jobOrder = document.getElementById('jobOrderRequest').value.trim();
-                const requestBy = document.getElementById('requestBy').value.trim();
 
-                // Find the item in current WIP
-                const itemIndexInWIP = currentWIP.findIndex(item =>
-                    item.description === description &&
-                    item.unit === unit &&
-                    item.jobOrder === jobOrder
-                );
+        window.hideMaterialTag = function(tagId) {
+            window.showConfirmBox(`คุณแน่ใจหรือไม่ที่จะลบแท็ก ID ${tagId} ออกจากหน้าจอ? (ข้อมูลในระบบจะยังอยู่เหมือนเดิม)`, (confirmed) => {
+                if (confirmed) {
+                    // 1. ลบออกจากหน้า HTML
+                    const tagDiv = document.querySelector(`.material-tag[data-id="${tagId}"]`);
+                    if (tagDiv) {
+                        tagDiv.remove();
+                        window.showMessageBox('Success', `ลบแท็ก ID ${tagId} จากหน้าจอแล้ว`, 'success');
+                        // บันทึก tagId ลง localStorage เพื่อไม่ให้แสดงตอน render
+                        let hiddenTags = JSON.parse(localStorage.getItem('hiddenTags') || '[]');
+                        if (!hiddenTags.includes(tagId.toString())) {
+                            hiddenTags.push(tagId.toString());
+                            localStorage.setItem('hiddenTags', JSON.stringify(hiddenTags));
+                        }
+                    } else {
+                        window.showMessageBox('Error', `ไม่พบแท็ก ID ${tagId} บนหน้าจอ`, 'error');
+                    }
+                }
+            });
+        };
 
-                if (itemIndexInWIP > -1) {
-                    if (currentWIP[itemIndexInWIP].quantity >= quantity) {
-                        currentWIP[itemIndexInWIP].quantity -= quantity;
 
-                        // Get current date/time and format it without seconds
-                        const now = new Date();
-                        const formattedTimestamp = now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        window.toggleTagSelection = function(checkbox) {
+            const tagDiv = checkbox.closest('.material-tag');
+            if (tagDiv) {
+                tagDiv.classList.toggle('selected', checkbox.checked);
+                console.log(`[DEBUG] Toggling selected class for tag: ${tagDiv.dataset.id}, checked: ${checkbox.checked}, hasClass: ${tagDiv.classList.contains('selected')}`);
+            } else {
+                console.log('[DEBUG] toggleTagSelection: Could not find parent .material-tag for checkbox.');
+            }
+        }
 
-                        // Add to request history
-                        requestHistory.push({
-                            timestamp: formattedTimestamp,
-                            description,
-                            quantity,
-                            unit,
-                            jobOrder,
-                            requestBy
+        window.editTagQuantity = function(element, tagNo, currentQty) { // Changed tagId to tagNo
+            const originalSpan = element; 
+
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.min = '0';
+            input.value = currentQty;
+            input.className = 'tag-qty-input';
+            input.style.width = '70px';
+            input.style.padding = '2px 5px';
+            input.style.fontSize = '1em';
+            input.style.textAlign = 'center';
+            input.style.borderColor = 'var(--primary-color)';
+            input.style.borderRadius = 'var(--input-border-radius)';
+            input.style.outline = 'none';
+
+            // Replace the span with the input field
+            originalSpan.parentNode.replaceChild(input, originalSpan);
+            input.focus();
+
+            const saveChanges = async () => {
+                const newQty = parseInt(input.value);
+                if (isNaN(newQty) || newQty < 0) {
+                    window.showMessageBox('Error', 'จำนวนไม่ถูกต้อง: ต้องเป็นตัวเลขและไม่ติดลบ', 'error');
+                    // Revert to original quantity if invalid input, only if input is still a child
+                    if (input.parentNode && input.parentNode.contains(input)) {
+                        input.parentNode.replaceChild(originalSpan, input); 
+                    } else {
+                        // If input is no longer a child, just update the original span's text if it exists
+                        originalSpan.innerText = `${currentQty} ${rmSEMIFgStocks.find(item => item.id === tagNo)?.UNIT || ''}`;
+                        // And remove the input if it's somehow still in the DOM but not as a child of 'element'
+                        if (input.parentNode) input.parentNode.removeChild(input);
+                    }
+                    originalSpan.innerText = `${currentQty} ${rmSEMIFgStocks.find(item => item.id === tagNo)?.UNIT || ''}`; // Ensure the text is correct
+                    return;
+                }
+
+                if (newQty === currentQty) {
+                    // No change, just revert, only if input is still a child
+                    if (input.parentNode && input.parentNode.contains(input)) {
+                        input.parentNode.replaceChild(originalSpan, input); 
+                    } else {
+                        originalSpan.innerText = `${currentQty} ${rmSEMIFgStocks.find(item => item.id === tagNo)?.UNIT || ''}`;
+                        if (input.parentNode) input.parentNode.removeChild(input);
+                    }
+                    window.showMessageBox('Info', 'ไม่มีการเปลี่ยนแปลงจำนวน', 'info');
+                    return;
+                }
+
+                if (input.parentNode && input.parentNode.contains(input)) {
+                    input.parentNode.replaceChild(originalSpan, input);
+                }
+                await updateTagQuantityInBackend(tagNo, newQty, originalSpan, input, currentQty); // Changed tagId to tagNo
+            };
+
+            input.addEventListener('blur', saveChanges);
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    saveChanges();
+                }
+            });
+        };
+
+        async function updateTagQuantityInBackend(tagNo, newQty, originalSpan, inputElement, oldQty) { 
+            try {
+                // Find the full item details from rmSEMIFgStocks using its ID
+                const itemToUpdate = rmSEMIFgStocks.find(item => item.id === tagNo); // Changed item.id to item.NO.
+
+                if (!itemToUpdate) {
+                    window.showMessageBox('Error', 'ไม่พบข้อมูลวัสดุที่ต้องการแก้ไข (ID ไม่ถูกต้อง)', 'error');
+                    // Revert UI on error, only if input is still a child
+                    if (inputElement.parentNode && inputElement.parentNode.contains(inputElement)) {
+                        inputElement.parentNode.replaceChild(originalSpan, inputElement);
+                    } else {
+                        originalSpan.innerText = `${oldQty} ${rmSEMIFgStocks.find(item => item.id === tagNo)?.UNIT || ''}`;
+                        if (inputElement.parentNode) inputElement.parentNode.removeChild(inputElement);
+                    }
+                    return;
+                }
+
+                // The backend /api/stocks/update-qty now handles the split/update logic based on newQty
+                const response = await fetch(`${BACKEND_URL}/api/stocks/update-qty`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                                id: tagNo, // Changed id to tagNo
+                                newQty: newQty,
+                                sapid: itemToUpdate.SAP_ID, // Pass SAP_ID
+                                description: itemToUpdate.DESCRIPTION, // Pass DESCRIPTION
+                                groupmat: itemToUpdate.GROUPMAT, // Pass GROUPMAT
+                                unit: itemToUpdate.UNIT, // Pass UNIT
+                                location: itemToUpdate.LOCATION // Pass LOCATION
+                            })
                         });
 
-                        saveWIP();
-                        saveRequestHistory();
-                        renderReportTable(); // Update report table
-                        document.getElementById('requestForm').reset(); // Clear form
-                        alert('Request successful!');
-                    } else {
-                        alert('Not enough quantity in stock for this item.');
-                    }
+                let result;
+                if (response.ok) {
+                    result = await response.json(); 
+                    window.showMessageBox('Success', result.message, 'success');
+                    // After successful update/split, re-fetch all data to refresh the tags display
+                    await fetchAndRenderAllData();
                 } else {
-                    alert('Item not found in current WIP inventory.');
+                    try {
+                        result = await response.json();
+                        window.showMessageBox('Error', `ข้อผิดพลาด: ${result.message || 'Unknown error'}`, 'error');
+                    } catch (jsonError) {
+                        const errorText = await response.text();
+                        window.showMessageBox('Error', `ข้อผิดพลาดจากเซิร์ฟเวอร์: ${errorText || response.statusText}`, 'error');
+                    }
+                    // Revert UI quantity on error, only if input is still a child
+                    if (inputElement.parentNode && inputElement.parentNode.contains(inputElement)) {
+                        inputElement.parentNode.replaceChild(originalSpan, inputElement);
+                    } else {
+                        originalSpan.innerText = `${oldQty} ${rmSEMIFgStocks.find(item => item.id === tagNo)?.UNIT || ''}`;
+                        if (inputElement.parentNode) inputElement.parentNode.removeChild(inputElement);
+                    }
+                }
+            } catch (error) {
+                console.error('Error updating tag quantity:', error);
+                if (error instanceof TypeError && error.message === 'Failed to fetch') {
+                    window.showMessageBox('Error', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ โปรดตรวจสอบว่า Backend Server กำลังทำงานอยู่', 'error');
+                } else {
+                    window.showMessageBox('Error', `เกิดข้อผิดพลาดในการเชื่อมต่อ: ${error.message}`, 'error');
+                }
+                // Revert UI quantity on network error, only if input is still a child
+                if (inputElement.parentNode && inputElement.parentNode.contains(inputElement)) {
+                    input.parentNode.replaceChild(originalSpan, inputElement);
+                } else {
+                    originalSpan.innerText = `${oldQty} ${rmSEMIFgStocks.find(item => item.id === tagNo)?.UNIT || ''}`;
+                    if (inputElement.parentNode) inputElement.parentNode.removeChild(inputElement);
+                }
+            }
+        }
+
+        /**
+         * Prints selected material tags.
+         */
+        window.printSelectedTags = function () {
+            const checkboxes = Array.from(document.querySelectorAll('.tag-select-checkbox:checked'));
+            console.log('[DEBUG] จำนวน checkbox ที่เลือก:', checkboxes.length);
+            const selectedTags = Array.from(document.querySelectorAll('.tag-select-checkbox:checked')).map(checkbox => {
+                const tagId = Number(checkbox.getAttribute('data-id'));
+                return rmSEMIFgStocks.find(tag => tag.id === tagId);
+            }).filter(Boolean); // Filter out any not found
+
+            if (selectedTags.length === 0) {
+                window.showMessageBox('Alert', 'โปรดเลือกแท็กที่ต้องการพิมพ์!', 'warning');
+                return;
+            }
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write('<html><head><title>Print Tags</title>');
+            printWindow.document.write('<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">');
+            printWindow.document.write('<style>');
+            printWindow.document.write(`
+                body {
+                    font-family: 'Inter', sans-serif;
+                    font-size: 10pt;
+                    margin: 0mm;
+                    padding: 1mm;
+                    padding-bottom: 2mm;
+                }
+
+                .rm-SEMI-tags-container {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: flex-start;
+                    gap: 5mm;
+                    padding: 5mm;
+                }
+
+                .material-tag {
+                    width: 5.5cm;
+                    height: 4.5cm;
+                    border: 1px solid #333;
+                    padding: 3mm;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    box-sizing: border-box;
+                    page-break-inside: avoid;
+                    position: relative;
+                }
+
+                .company-header {
+                    font-size: 9pt;
+                    font-weight: 600;
+                    text-align: center;
+                    margin-bottom: 1mm;
+                    margin-top: -2mm;
+                    line-height: 1.2;
+                    font-style: italic;
+
+                }
+
+                .tag-info p {
+                    margin: 0;
+                    padding-bottom: 1.5mm;
+                    text-align: left;
+                    line-height: 1.2;
+                }
+
+                .tag-sapid {
+                    color: #b22222;
+                    font-weight: 600;
+                }
+
+                .tag-qty-display {
+                    color: green;
+                    font-weight: bold;
+                }
+
+                .tag-date {
+                    text-align: center;
+                    font-size: 10pt;
+                    font-weight: bold;
+                    background-color: #d3bfff;
+                    padding: 1mm;
+                    border-radius: 2px;
+                }
+
+                @media print {
+                    * {
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
+                    }
+
+                    .tag-select-checkbox, .tag-delete-btn {
+                        display: none !important;
+                    }
+
+                    .tag-date {
+                        background-color: #d3bfff !important; /* สีพื้นหลังวันที่ */
+                        color: #000 !important;           /* สีตัวหนังสือวันที่ */
+                    }
+                }
+
+                @page {
+                    size: A4;
+                    margin: 5mm;
+                }
+            `);
+            printWindow.document.write('</style></head><body>');
+
+            // Render selected tags
+            let tagsHtml = '<div class="rm-SEMI-tags-container">';
+            selectedTags.forEach(tag => {
+                // Use the 'created_at' property from the rmSEMIFgStocks array
+                const createdAtDate = new Date(tag.created_at); // Corrected from tag.created.at
+                const displayDate = createdAtDate.toLocaleDateString('th-TH', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
+                tagsHtml += `
+                    <div class="material-tag">
+                        <div class="company-header">
+                            SNC CRIATIVITY (SCAN PIPE)
+                        </div>
+                        <div class="tag-info">
+                            <p class="tag-sapid">SAP: ${tag.SAP_ID}</p>
+                            <p><strong>DESCRIPTION:</strong> ${tag.DESCRIPTION}</p>
+                            <p class="tag-qty-display">QUANTITY: ${tag.Q_TY} ${tag.UNIT}</p>
+                            <p><strong>Location:</strong> ${tag.LOCATION}</p>
+                        </div>
+                        <div class="tag-date">${displayDate}</div>
+                    </div>
+                `;
+            });
+            tagsHtml += '</div>';
+
+            printWindow.document.write(tagsHtml);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+        };
+
+
+
+        function renderStockTable(data) {
+            const tbody = document.getElementById('stockTable').querySelector('tbody');
+            tbody.innerHTML = '';
+
+            const materialTypeFilter = document.getElementById('materialTypeFilter').value;
+            const searchTerm = document.getElementById('searchInput')?.value?.trim().toLowerCase();
+
+            const aggregatedData = {};
+
+            data.forEach(item => {
+                const groupmat = item.GROUPMAT?.trim()?.toUpperCase();
+                const matchesFilter = materialTypeFilter === 'ALL' || groupmat === materialTypeFilter;
+
+                const matchesSearch = !searchTerm ||
+                    item.SAP_ID?.toLowerCase().includes(searchTerm) ||
+                    item.DESCRIPTION?.toLowerCase().includes(searchTerm);
+
+                if (!item.is_archived && matchesFilter && matchesSearch) {
+                    const key = `${item.SAP_ID}-${item.UNIT}-${item.LOCATION}-${groupmat}`;
+                    if (!aggregatedData[key]) {
+                        aggregatedData[key] = {
+                            SAP_ID: item.SAP_ID,
+                            DESCRIPTION: item.DESCRIPTION,
+                            UNIT: item.UNIT,
+                            LOCATION: item.LOCATION,
+                            GROUPMAT: groupmat,
+                            Q_TY: 0,
+                            created_at: item.created_at
+                        };
+                    }
+                    aggregatedData[key].Q_TY += item.Q_TY;
+
+                    const currentTime = new Date(item.created_at).getTime();
+                    const existingTime = new Date(aggregatedData[key].created_at).getTime();
+                    if (currentTime > existingTime) {
+                        aggregatedData[key].created_at = item.created_at;
+                    }
                 }
             });
 
-            // --- Report WIP Table Rendering and Filtering ---
-            const reportWIPTableBody = document.querySelector('#reportWIPTable tbody');
-            const searchReportInput = document.getElementById('searchReport');
-            const filterProcessReportSelect = document.getElementById('filterProcessReport');
+            const finalData = Object.values(aggregatedData);
 
-            function renderReportTable() {
-                reportWIPTableBody.innerHTML = ''; // Clear existing rows
-                const searchTerm = searchReportInput.value.toLowerCase();
-                const filterProcess = filterProcessReportSelect.value;
+            //  Sort by oldest to newest
+            finalData.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
 
-                const filteredWIP = currentWIP.filter(item => {
-                    const matchesSearch = searchTerm === '' ||
-                        item.sapCode.toLowerCase().includes(searchTerm) ||
-                        item.description.toLowerCase().includes(searchTerm) ||
-                        item.unit.toLowerCase().includes(searchTerm) ||
-                        item.type.toLowerCase().includes(searchTerm) ||
-                        item.process.toLowerCase().includes(searchTerm) ||
-                        item.location.toLowerCase().includes(searchTerm) ||
-                        item.jobOrder.toLowerCase().includes(searchTerm);
+            if (finalData.length === 0) {
+                const row = tbody.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 6;
+                cell.textContent = 'ไม่พบข้อมูล';
+                cell.style.textAlign = 'center';
+                cell.style.fontStyle = 'italic';
+                return;
+            }
 
-                    const matchesProcess = filterProcess === '' || item.process === filterProcess;
+            finalData.forEach(item => {
+                const row = tbody.insertRow();
+                row.insertCell().innerText = item.SAP_ID;
+                row.insertCell().innerText = item.DESCRIPTION;
+                row.insertCell().innerText = item.Q_TY;
+                row.insertCell().innerText = item.UNIT;
+                row.insertCell().innerText = item.LOCATION;
+                row.insertCell().innerText = item.GROUPMAT;
+            });
+        }
 
-                    return matchesSearch && matchesProcess;
+        function renderOtherMaterialsTable(data) {
+            const tbody = document.getElementById('otherTable').querySelector('tbody');
+            tbody.innerHTML = '';
+
+            data.forEach(item => {
+                const row = tbody.insertRow(); // Corrected: insertRow() on tbody
+                row.insertCell().innerText = item.SAP_ID || '-';
+                row.insertCell().innerText = item.DESCRIPTION;
+                row.insertCell().innerText = item.Q_TY;
+                row.insertCell().innerText = item.UNIT;
+                row.insertCell().innerText = item.LOCATION || '-';
+                const statusCell = row.insertCell();
+                const statusText = item.Q_TY <= item.ROP ? 'ROP' : ''; 
+                const statusClass = item.Q_TY <= item.ROP ? 'status-reorder-critical' : 'status-ok';
+                statusCell.innerHTML = `<div class="status-cell ${statusClass}"><span class="status-circle"></span> ${statusText}</div>`;
+            });
+        }
+
+
+        window.submitIssue = async function() {
+            const sapid = document.getElementById('issueSapid').value;
+            const description = document.getElementById('issueDescription').value;
+            const qty = parseInt(document.getElementById('issueQty').value);
+            const unit = document.getElementById('issueUnit').value;
+            const jobOrder = document.getElementById('issueJobOrder').value;
+            const location = document.getElementById('issueLocation').value;
+
+            if (!sapid || !description || !qty || qty <= 0 || !unit || !jobOrder || !location) {
+                window.showMessageBox('Error', 'โปรดกรอกข้อมูลการเบิกให้ครบถ้วนและถูกต้อง!', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/transfer-deduct-stock`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        date: new Date().toISOString(),
+                        sapid: sapid,
+                        description: description,
+                        qty: qty,
+                        unit: unit,
+                        partfg: 'N/A', // Placeholder, adjust if you have a real value
+                        joborder: jobOrder,
+                        location: location
+                    })
                 });
 
-                filteredWIP.forEach(item => {
-                    const row = reportWIPTableBody.insertRow();
-                    row.insertCell().textContent = item.sapCode;
-                    row.insertCell().textContent = item.description;
-                    row.insertCell().textContent = item.quantity;
-                    row.insertCell().textContent = item.unit;
-                    row.insertCell().textContent = item.type;
-                    row.insertCell().textContent = item.process;
-                    row.insertCell().textContent = item.location;
-                    row.insertCell().textContent = item.jobOrder;
+                const result = await response.json();
+
+                if (response.ok) {
+                    window.showMessageBox('Success', result.message, 'success');
+                    await fetchAndRenderAllData();
+                    // Clear form
+                    document.getElementById('issueSapid').value = '';
+                    document.getElementById('issueDescription').value = '';
+                    document.getElementById('issueQty').value = '';
+                    document.getElementById('issueUnit').value = 'KG.';
+                    document.getElementById('issueJobOrder').value = '';
+                    document.getElementById('issueLocation').value = '';
+                } else {
+                    window.showMessageBox('Error', `ข้อผิดพลาด: ${result.message || response.statusText}`, 'error');
+                }
+            } catch (error) {
+                console.error('Error submitting issue:', error);
+                if (error instanceof TypeError && error.message === 'Failed to fetch') {
+                    window.showMessageBox('Error', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ โปรดตรวจสอบว่า Backend Server กำลังทำงานอยู่', 'error');
+                } else {
+                    window.showMessageBox('Error', `เกิดข้อผิดพลาดในการเชื่อมต่อ: ${error.message}`, 'error');
+                }
+            }
+        }
+
+        window.submitRequest = async function() {
+            const description = document.getElementById('requestDescription').value;
+            const qty = parseInt(document.getElementById('requestQty').value);
+            const unit = document.getElementById('requestUnit').value;
+            const requesterName = document.getElementById('requestName').value;
+            const department = document.getElementById('requestDepartment').value; 
+            const sapid = null; // SAP ID is not collected on the request form
+            const location = null; // Location is not collected on the request form
+
+            if (!description || !qty || qty <= 0 || !unit || !requesterName || !department) {
+                window.showMessageBox('Error', 'โปรดกรอกข้อมูลคำขอให้ครบถ้วนและถูกต้อง!', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/request-material`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        description: description,
+                        qty: qty,
+                        unit: unit,
+                        requester_name: requesterName,
+                        department: department,
+                        request_date: new Date().toISOString(),
+                        sapid: sapid, 
+                        location: location 
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    window.showMessageBox('Success', result.message, 'success');
+                    await fetchAndRenderAllData();
+                    // Clear form
+                    document.getElementById('requestDescription').value = '';
+                    document.getElementById('requestQty').value = '';
+                    document.getElementById('requestUnit').value = 'KG.';
+                    document.getElementById('requestName').value = '';
+                    document.getElementById('requestDepartment').value = ''; 
+                } else {
+                    window.showMessageBox('Error', `ข้อผิดพลาด: ${result.message || response.statusText}`, 'error');
+                }
+            }
+            catch (error) {
+                console.error('Error submitting request:', error);
+                if (error instanceof TypeError && error.message === 'Failed to fetch') {
+                    window.showMessageBox('Error', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ โปรดตรวจสอบว่า Backend Server กำลังทำงานอยู่', 'error');
+                } else {
+                    window.showMessageBox('Error', `เกิดข้อผิดพลาดในการเชื่อมต่อ: ${error.message}`, 'error');
+                }
+            }
+        }
+
+
+        function renderHistoryTables() {
+            // Render Receive History
+            const receiveHistoryTbody = document.getElementById('receiveHistoryTable').querySelector('tbody');
+            receiveHistoryTbody.innerHTML = '';
+            if (receiveHistoryData.length === 0) {
+                const row = receiveHistoryTbody.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 7;
+                cell.textContent = 'ไม่มีประวัติการรับวัสดุ'; 
+                cell.style.textAlign = 'center';
+                cell.style.fontStyle = 'italic';
+                cell.style.color = 'var(--accent-color)';
+            } else {
+                receiveHistoryData.forEach(record => {
+                    const row = receiveHistoryTbody.insertRow();
+                    row.insertCell().innerText = new Date(record.created_at).toLocaleString('th-TH');
+                    row.insertCell().innerText = record.sapid;
+                    row.insertCell().innerText = record.description;
+                    row.insertCell().innerText = record.qty;
+                    row.insertCell().innerText = record.unit;
+                    row.insertCell().innerText = record.location || '-';
+                    row.insertCell().innerText = record.groupmat; // Use groupmat for type
                 });
             }
 
-            window.filterReport = renderReportTable; // Make function globally accessible for onkeyup/onchange
-
-            // --- Receive History Table Rendering ---
-            const receiveHistoryTableBody = document.querySelector('#receiveHistoryTable table tbody');
-
-            function renderReceiveHistoryTable() {
-                receiveHistoryTableBody.innerHTML = ''; // Clear existing rows
-                receiveHistory.forEach(item => {
-                    const row = receiveHistoryTableBody.insertRow();
-                    row.insertCell().textContent = item.timestamp;
-                    row.insertCell().textContent = item.sapCode;
-                    row.insertCell().textContent = item.description;
-                    row.insertCell().textContent = item.quantity;
-                    row.insertCell().textContent = item.unit;
-                    row.insertCell().textContent = item.type;
-                    row.insertCell().textContent = item.process;
-                    row.insertCell().textContent = item.location;
-                    row.insertCell().textContent = item.jobOrder;
+            // Filter data for Issue History (from combined issueRequestHistoryData)
+            const issueHistoryOnly = issueRequestHistoryData.filter(item => item.type === 'DIRECT_ISSUE' || item.status === 'processed');
+            const issueHistoryTbody = document.getElementById('issueHistoryTable').querySelector('tbody');
+            issueHistoryTbody.innerHTML = '';
+            if (issueHistoryOnly.length === 0) {
+                const row = issueHistoryTbody.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 10; 
+                cell.textContent = 'ไม่มีประวัติการเบิกวัสดุ';
+                cell.style.textAlign = 'center';
+                cell.style.fontStyle = 'italic';
+                cell.style.color = 'var(--accent-color)';
+            } else {
+                issueHistoryOnly.forEach(record => {
+                    const row = issueHistoryTbody.insertRow();
+                    row.insertCell().innerText = new Date(record.date).toLocaleString('th-TH');
+                    row.insertCell().innerText = record.sapid || '-';
+                    row.insertCell().innerText = record.description;
+                    row.insertCell().innerText = record.quantity;
+                    row.insertCell().innerText = record.unit || '-';
+                    row.insertCell().innerText = record.location || '-';
+                    row.insertCell().innerText = record.type === 'DIRECT_ISSUE' ? 'เบิกโดยตรง' : 'เบิกจากคำขอ'; // Differentiate type
+                    row.insertCell().innerText = record.jobOrder || '-';
+                    row.insertCell().innerText = record.requesterName || '-';
+                    row.insertCell().innerText = record.department || '-';
                 });
             }
 
-            // --- Request History Table Rendering ---
-            const requestHistoryTableBody = document.querySelector('#requestHistoryTable table tbody');
+            const requestHistoryOnly = issueRequestHistoryData.filter(item => item.type === 'REQUEST_PROCESSED');
+            const requestHistoryTbody = document.getElementById('pendingRequestsTable').querySelector('tbody'); // Changed ID here
+            requestHistoryTbody.innerHTML = '';
+            if (requestHistoryOnly.length === 0) {
+                const row = requestHistoryTbody.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 8; 
+                cell.textContent = 'ไม่มีประวัติคำขอวัสดุ';
+                cell.style.textAlign = 'center';
+                cell.style.fontStyle = 'italic';
+                cell.style.color = 'var(--accent-color)';
+            } else {
+                requestHistoryOnly.forEach(record => {
+                    const row = requestHistoryTbody.insertRow();
+                    row.insertCell().innerText = new Date(record.date).toLocaleString('th-TH');
+                    row.insertCell().innerText = record.description;
+                    
+                    const qtyCell = row.insertCell();
+                    if (record.status === 'pending') {
+  
+                        qtyCell.innerHTML = `<span class="editable-qty" onclick="window.editRequestQuantity(this, '${record.id}', ${record.quantity})">${record.quantity}</span>`;
+                    } else {
+                        qtyCell.innerText = record.quantity;
+                    }
 
-            function renderRequestHistoryTable() {
-                requestHistoryTableBody.innerHTML = ''; // Clear existing rows
-                requestHistory.forEach(item => {
-                    const row = requestHistoryTableBody.insertRow();
-                    row.insertCell().textContent = item.timestamp;
-                    row.insertCell().textContent = item.description;
-                    row.insertCell().textContent = item.quantity;
-                    row.insertCell().textContent = item.unit;
-                    row.insertCell().textContent = item.jobOrder;
-                    row.insertCell().textContent = item.requestBy;
+                    row.insertCell().innerText = record.unit || '-';
+                    row.insertCell().innerText = record.requesterName || '-';
+                    row.insertCell().innerText = record.department || '-';
+                    row.insertCell().innerText = record.status === 'pending' ? 'รอดำเนินการ' : 'ดำเนินการแล้ว'; // Display status in Thai
+
+                    const actionsCell = row.insertCell();
+                    if (record.status === 'pending') {
+                        actionsCell.innerHTML = `
+                            <button class="small-btn" onclick="window.confirmRequestIssue('${record.id}')" style="background-color: var(--secondary-color); color: white; padding: 8px 12px; border: none; border-radius: 5px; cursor: pointer; margin-right: 5px;">ดำเนินการแล้ว</button>
+                        `;
+                    } else {
+                        actionsCell.innerText = '-'; 
+                    }
                 });
             }
+        }
 
-            // --- Export to Excel Functions ---
-            function exportTableToExcel(tableId, sheetName, filename) {
-                const table = document.getElementById(tableId);
-                const ws = XLSX.utils.table_to_sheet(table);
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, sheetName);
-                XLSX.writeFile(wb, filename);
+        window.editRequestQuantity = function(element, requestId, currentQty) {
+            const originalSpan = element;
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.min = '1';
+            input.value = currentQty;
+            input.className = 'request-qty-input';
+            input.style.width = '70px';
+            input.style.padding = '2px 5px';
+            input.style.fontSize = '1em';
+            input.style.textAlign = 'center';
+            input.style.borderColor = 'var(--primary-color)';
+            input.style.borderRadius = 'var(--input-border-radius)';
+            input.style.outline = 'none';
+
+            const parent = originalSpan.parentNode;
+            parent.replaceChild(input, originalSpan);
+            input.focus();
+
+            let isSaving = false;
+
+            const saveChanges = async () => {
+                if (isSaving) return;
+                isSaving = true;
+
+                input.removeEventListener('blur', saveChanges); // ป้องกันซ้อน
+
+                const newQty = parseInt(input.value);
+                if (isNaN(newQty) || newQty <= 0) {
+                    window.showMessageBox('Error', 'จำนวนไม่ถูกต้อง: ต้องเป็นตัวเลขบวก', 'error');
+                    if (parent && parent.contains(input)) {
+                        parent.replaceChild(originalSpan, input);
+                    }
+                    originalSpan.innerText = currentQty;
+                    isSaving = false;
+                    return;
+                }
+
+                if (newQty === currentQty) {
+                    if (parent && parent.contains(input)) {
+                        parent.replaceChild(originalSpan, input);
+                    }
+                    window.showMessageBox('Info', 'ไม่มีการเปลี่ยนแปลงจำนวน', 'info');
+                    isSaving = false;
+                    return;
+                }
+
+                if (parent && parent.contains(input)) {
+                    parent.replaceChild(originalSpan, input);
+                }
+
+                try {
+                    const response = await fetch(`${BACKEND_URL}/api/requests/process-issue`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ requestId: requestId, newQty: newQty })
+                    });
+
+                    const result = await response.json();
+                    if (response.ok) {
+                        window.showMessageBox('Success', result.message, 'success');
+                        await fetchAndRenderAllData();
+                    } else {
+                        window.showMessageBox('Error', `ข้อผิดพลาด: ${result.message || response.statusText}`, 'error');
+                        originalSpan.innerText = currentQty;
+                    }
+                } catch (error) {
+                    console.error('Error updating request quantity:', error);
+                    window.showMessageBox('Error', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ โปรดตรวจสอบว่า Backend Server กำลังทำงานอยู่', 'error');
+                    originalSpan.innerText = currentQty;
+                }
+
+                isSaving = false;
+            };
+
+            input.addEventListener('blur', saveChanges);
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    saveChanges();
+                }
+            });
+        };
+
+
+        window.confirmRequestIssue = async function(requestId) {
+            window.showConfirmBox(`คุณแน่ใจหรือไม่ที่จะยืนยันการเบิกสำหรับคำขอ ID ${requestId} นี้?`, async (confirmed) => {
+                if (confirmed) {
+                    try {
+                        const response = await fetch(`${BACKEND_URL}/api/requests/process-issue`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ requestId: requestId }) 
+                        });
+
+                        const result = await response.json();
+                        if (response.ok) {
+                            window.showMessageBox('Success', result.message, 'success');
+                            await fetchAndRenderAllData(); // Re-fetch all data to update UI
+                        } else {
+                            window.showMessageBox('Error', `ข้อผิดพลาด: ${result.message || response.statusText}`, 'error');
+                        }
+                    } catch (error) {
+                        console.error('Error confirming request issue:', error);
+                        window.showMessageBox('Error', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ โปรดตรวจสอบว่า Backend Server กำลังทำงานอยู่', 'error');
+                    }
+                }
+            });
+        };
+
+
+        let locations = {};
+
+
+        window.exportTableToExcel = function(tableID, filename = ''){
+            var downloadLink;
+            var dataType = 'application/vnd.ms-excel';
+            var tableSelect = document.getElementById(tableID);
+            var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+            
+            filename = filename?filename+'.xls':'excel_data.xls';
+            
+            downloadLink = document.createElement("a");
+            
+            document.body.appendChild(downloadLink);
+            
+            if(navigator.msSaveOrOpenBlob){
+                var blob = new Blob(['\ufeff', tableHTML], {
+                    type: dataType
+                });
+                navigator.msSaveOrOpenBlob( blob, filename);
+            }else{
+                downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+                downloadLink.download = filename;
+                downloadLink.click();
+            }
+        }
+
+        async function fetchDescriptionsForDatalist() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/descriptions`);
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`HTTP error! status: ${response.status} from /api/descriptions. Backend says: ${errorText}`);
+                }
+                const descriptions = await response.json();
+                const datalist = document.getElementById('descriptionOptions');
+                datalist.innerHTML = ''; 
+
+                descriptions.forEach(desc => {
+                    const option = document.createElement('option');
+                    option.value = desc;
+                    datalist.appendChild(option);
+                });
+                console.log('[DEBUG] Datalist populated with descriptions:', descriptions);
+            } catch (error) {
+                console.error('Error fetching descriptions for datalist:', error);
+                if (error instanceof TypeError && error.message === 'Failed to fetch') {
+                    window.showMessageBox('Error', 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ โปรดตรวจสอบว่า Backend Server กำลังทำงานอยู่', 'error');
+                } else {
+                }
+            }
+        }
+        function closeConfirmBox() {
+            const confirmBox = document.getElementById('confirmBox');
+            if (confirmBox) {
+            confirmBox.style.display = 'none';
+            }
+        }
+
+
+        window.onload = function() {
+            currentUser = localStorage.getItem('currentUser');
+
+            if (currentUser && users[currentUser]) {
+                document.getElementById("loginPage").style.display = "none";
+                document.querySelector(".sidebar").style.display = "flex";
+                document.querySelector(".main").style.display = "block";
+                document.getElementById("logoutBtn").style.display = "flex"; 
+
+                setupSidebarPermissions();
+                showPage(users[currentUser].allowedModules[0]); 
+            } else {
+                document.getElementById("loginPage").style.display = "block";
+                document.querySelector(".sidebar").style.display = "none";
+                document.querySelector(".main").style.display = "none";
+                document.getElementById("logoutBtn").style.display = "none"; 
             }
 
-            function exportReportToExcel() {
-                // Ensure the current view is rendered before exporting
-                renderReportTable(); 
-                exportTableToExcel('reportWIPTable', 'Current WIP', 'Current_WIP_Report.xlsx');
-            }
+            fetchAndRenderAllData();
+            fetchDescriptionsForDatalist();
+        };
+        
 
-            function exportHistoryToExcel() {
-                // Create a new workbook
-                const wb = XLSX.utils.book_new();
-
-                // Add Receive History sheet
-                const receiveTable = document.querySelector('#receiveHistoryTable table');
-                const wsReceive = XLSX.utils.table_to_sheet(receiveTable);
-                XLSX.utils.book_append_sheet(wb, wsReceive, 'Receive History');
-
-                // Add Request History sheet
-                const requestTable = document.querySelector('#requestHistoryTable table');
-                const wsRequest = XLSX.utils.table_to_sheet(requestTable);
-                XLSX.utils.book_append_sheet(wb, wsRequest, 'Request History');
-
-                // Write the workbook to a file
-                XLSX.writeFile(wb, 'WIP_History_Combined.xlsx');
-            }
-        });
     </script>
 </body>
 </html>
