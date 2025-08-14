@@ -550,19 +550,6 @@
                 }
             }
 
-            // --- Receive WIP Form Submission ---
-            document.getElementById('receiveForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-
-                const sapCode = document.getElementById('sapCodeReceive').value.trim();
-                const description = document.getElementById('descriptionReceive').value.trim();
-                const quantity = parseInt(document.getElementById('quantityReceive').value);
-                const unit = document.getElementById('unitReceive').value;
-                const type = document.getElementById('typeReceive').value;
-                const process = document.getElementById('processReceive').value;
-                const location = document.getElementById('locationReceive').value.trim();
-                const jobOrder = document.getElementById('jobOrderReceive').value.trim();
-
                 // Validation for process selection
                 if (process === "") {
                     alert("Please select a PROCESS.");
@@ -765,3 +752,4 @@
     </script>
 </body>
 </html>
+
